@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CheckAdmin
 {
@@ -17,16 +18,14 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
-            if (Auth::user()->role == 'admin') {
-                return $next($request);
-            } elseif (Auth::user()->role == 'user') {
-                return redirect()->route('user.profile');
-            } else {
-                return redirect()->route('login');
-            }
-        } else {
-            return redirect()->route('login');
+        $roleName = Session::get("roleName") ?? false;
+
+        if ($roleName == "super-admin") {
+            return $next($request);
+        } elseif ($roleName == 'user') {
+            return redirect()->route('user.profile');
+        }else{
+            return redirect()->route("login");
         }
     }
 }

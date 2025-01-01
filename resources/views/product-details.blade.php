@@ -17,12 +17,10 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="{{ route('home') }}"><i class="fa fa-home"></i> Home</a>
-                        <a href="{{ route('shop', ['category' => $products[0]['parentcategory']['name']]) }}">{{ $products[0]['parentcategory']['name'] }}
+                        {{-- <a href="{{ route('product') }}"><i class="fa fa-home"></i> Product</a> --}}
+                        <a href="{{ route('shop', ['category' => $product['category']['name']]) }}">{{ Str::ucfirst($product['category']['name']) }}
                         </a>
-                        <a
-                            href="{{ route('shop', ['category' => $products[0]['parentcategory']['name'], 'subcategory' => $products[0]['childcategory']['name']]) }}">{{ $products[0]['childcategory']['name'] }}
-                        </a>
-                        <span>{{ $products[0]['title'] }}</span>
+                        <span>{{ Str::upper($product['title']) }}</span>
                     </div>
                 </div>
             </div>
@@ -39,9 +37,9 @@
                             {{-- <a class="pt active" href="#product-1">
                                 <img src="{{ URL::asset('public/img/product/details/thumb-1.jpg') }}" alt="">
                             </a> --}}
-                            @foreach ($products[0]['images'] as $key => $images)
+                            @foreach ($product['images'] as $key => $images)
                                 <a class="pt {{ $key == 0 ? 'active' : '' }}" href="#product-{{ $key }}">
-                                    <img src="{{ URL::asset('public/img/product/details/thumb/' . $images['image_name'] . '') }}"
+                                    <img src="{{ URL::asset('public/storage/' . $images['image_name'] . '') }}"
                                         alt="">
                                 </a>
                             @endforeach
@@ -49,19 +47,18 @@
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                @foreach ($products[0]['images'] as $key => $images)
+                                @foreach ($product['images'] as $key => $images)
                                     <img data-hash="product-{{ $key }}" class="product__big__img"
-                                        src="{{ URL::asset('public/img/product/details/fullview/' . $images['image_name'] . '') }}"
-                                        alt="">
+                                        src="{{ URL::asset('public/storage/' . $images['image_name'] . '') }}"
+                                        alt="" />
                                 @endforeach
-
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <h3>{{ $products[0]['title'] }} <span>Discover our beautiful Handcrafted stone stutue.</span></h3>
+                        <h3>{{ $product['title'] }} <span>Discover our beautiful Handcrafted stone stutue.</span></h3>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -70,9 +67,9 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
-                        <div class="product__details__price">{{ $products[0]['inventory']['price'] }} <span>
-                                {{ $products[0]['discount']['dis_percent'] }}</span></div>
-                        <p>{{ $products[0]['short_description'] }}</p>
+                        <div class="product__details__price">{{ $product['inventory']['price'] }} <span>
+                                {{ $product['discount']['dis_percent'] }}</span></div>
+                        <p>{{ $product['short_description'] }}</p>
                         <div class="product__details__button">
                             <div class="quantity">
                                 <span>Quantity:</span>
@@ -102,7 +99,7 @@
                                     <span>Available color:</span>
                                     <div class="color__checkbox">
                                         <label for="red">
-                                            <span>{{ $products[0]['marbaltype'] }}</span>
+                                            <span>{{ $product['marbaltype'] }}</span>
                                             {{-- <input type="radio" name="color__radio" id="red" checked>
                                             <span class="checkmark"></span> --}}
                                         </label>
@@ -122,10 +119,9 @@
                                     <div class="size__btn">
                                         <label for="xs-btn" class="active">
                                             {{-- <input type="radio" id="xs-btn"> --}}
-                                            <span>{{ $products[0]['dimension'] }}</span>
+                                            <span>{{ $product['dimension'] }}</span>
 
                                         </label>
-
                                     </div>
                                 </li>
                                 <li>
@@ -152,15 +148,15 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <h6>Description</h6>
-                                <p>{{ $products[0]['short_description'] }}</p>
-                                <p>{{ $products[0]['short_description'] }}</p>
+                                <p>{{ $product['short_description'] }}</p>
+                                <p>{{ $product['short_description'] }}</p>
 
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>Specification</h6>
-                                <p>{{ $products[0]['long_description'] }}</p>
-                                <p>{{ $products[0]['long_description'] }}</p>
-                                <p>{{ $products[0]['long_description'] }}</p>
+                                <p>{{ $product['long_description'] }}</p>
+                                <p>{{ $product['long_description'] }}</p>
+                                <p>{{ $product['long_description'] }}</p>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <h6>Reviews ( 2 )</h6>
@@ -201,7 +197,7 @@
                             </div>
                             <div class="product__item__text">
                                 <h6><a
-                                        href="{{ route('productDetails', ['category' => $item['parentcategory']['name'], 'childcategory' => $item['childcategory']['name'], 'title' => $item['title']]) }}">{{ $item['title'] }}</a>
+                                        href="{{ route('productDetails', ['slug' => $item['slug']]) }}">{{ $item['title'] }}</a>
                                 </h6>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
@@ -222,7 +218,7 @@
     <!-- Product Details Section End -->
 
     <!-- Instagram Begin -->
-    <div class="instagram">
+    {{-- <div class="instagram">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
@@ -281,7 +277,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Instagram End -->
 
 @endsection

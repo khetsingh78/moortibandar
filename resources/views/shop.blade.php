@@ -157,10 +157,10 @@
                             <div class="col-md-4 col-sm-6">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg"
-                                        data-setbg="{{ URL::asset('/public/img/product/' . $item['cover_image'] . '') }}">
+                                        data-setbg="{{ URL::asset('/public/storage/' . $item['cover_image']) }}">
                                         <div class="label new">New</div>
                                         <ul class="product__hover">
-                                            <li><a href="{{ URL::asset('/public/img/product/' . $item['cover_image'] . '') }}"
+                                            <li><a href="{{ URL::asset('/public/storage/' . $item['cover_image']) }}"
                                                     class="image-popup"><span class="arrow_expand"></span></a></li>
                                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
@@ -168,7 +168,7 @@
                                     </div>
                                     <div class="product__item__text">
                                         <h6><a
-                                                href="{{ route('productDetails', ['category' => $item['parentcategory']['name'], 'childcategory' => $item['childcategory']['name'], 'title' => $item['title']]) }}">{{ $item['title'] }}</a>
+                                                href="{{ route('productDetails', ['slug' => $item['slug']]) }}">{{ $item['title'] }}</a>
                                         </h6>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>

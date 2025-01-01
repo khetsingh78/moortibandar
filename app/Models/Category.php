@@ -12,4 +12,13 @@ class Category extends Model
     protected $table = 'product_category';
 
     protected $guarded = [];
+
+    public function childCategories()
+    {
+        return $this->hasMany(Category::class, "parent_id");
+    }
+
+    public function parentCategory() {
+        return $this->belongsTo(Category::class, "parent_id");
+    }
 }

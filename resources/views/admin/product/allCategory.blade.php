@@ -22,7 +22,7 @@
                         <tr class="text-white">
                             <th scope="col">SNO</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Created</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -32,7 +32,7 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $item['name'] }}</td>
-                                <td>{{ $item['description'] }}</td>
+                                <td>{{ $item['parent_id']? "Child":"Parent" }}</td>
                                 <td>{{ $item['created_at'] }}</td>
 
                                 <td>

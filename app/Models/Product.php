@@ -23,22 +23,23 @@ class Product extends Model
     //     'long_description',
     // ];
 
-    public function parentcategory()
+    public function category()
     {
-        return $this->belongsTo(Category::class, 'parent_category_id', 'id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-    public function childcategory()
-    {
-        return $this->belongsTo(Category::class, 'child_category_id', 'id');
-    }
+
     public function discount()
     {
         return $this->belongsTo(ProductDiscount::class, 'discount_id', 'id');
     }
-    // public function SGST()
-    // {
-    //     return $this->belongsTo(ProductDiscount::class, 'discount_id', 'id');
-    // }
+    public function sgst()
+    {
+        return $this->belongsTo(Gsttax::class, 'sgst_id', 'id');
+    }
+    public function cgst()
+    {
+        return $this->belongsTo(Gsttax::class, 'sgst_id', 'id');
+    }
 
     public function inventory()
     {

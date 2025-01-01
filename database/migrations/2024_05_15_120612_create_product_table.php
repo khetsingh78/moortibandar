@@ -13,17 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
+        // Schema::disableForeignKeyConstraints();
+
         Schema::create('product', function (Blueprint $table) {
             $table->id();
-            $table->string('SKU')->nullable();
-            $table->string('title', 100)->nullable();
+            $table->string('SKU');
+            $table->string('title', 225);
+            $table->string('slug', 225)->unique();
             $table->string('short_description', 1000)->nullable();
             $table->text('long_description', 2000)->nullable();
-            $table->integer('parent_category_id')->unsigned()->nullable(); //referencing
-            $table->integer('child_category_id')->unsigned()->nullable(); //referencing
-            $table->integer('discount_id')->unsigned()->nullable(); //referencing
-            $table->integer('SGST')->unsigned()->nullable(); //referencing
-            $table->integer('CGST')->unsigned()->nullable(); //referencing
+
+
+            $table->foreignId("category_id")->constrained("product_category", "id")->onDelete("cascade");
+            $table->foreignId("discount_id")->constrained("product_discount", "id")->onDelete("cascade");
+            $table->foreignId("sgst_id")->constrained("gsttax", "id")->onDelete("cascade");
+            $table->foreignId("cgst_id")->constrained("gsttax", "id")->onDelete("cascade");
+
             $table->string('height', 100)->nullable();
             $table->string('dimension', 100)->nullable();
             $table->string('marbaltype', 100)->nullable();
@@ -44,6 +49,8 @@ return new class extends Migration
      */
     public function down()
     {
+        // Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('product');
     }
 };

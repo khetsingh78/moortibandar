@@ -10,12 +10,12 @@
 @section('content')
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner"
+        {{-- <div id="spinner"
             class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
-        </div>
+        </div> --}}
         <!-- Spinner End -->
 
 
@@ -30,23 +30,34 @@
                             </a>
                             <h3>Sign In</h3>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="useremail" placeholder="name@example.com" />
-                            <label for="useremail">Email address</label>
-                        </div>
-                        <div class="form-floating mb-4">
-                            <input type="password" class="form-control" id="userpassword" placeholder="Password" />
-                            <label for="userpassword">Password</label>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+
+                        <form action="{{ route('login') }}" method="post">
+
+                            @csrf
+                            <div class="form-floating mb-3">
+                                <input type="email" name="email" class="form-control" id="useremail"
+                                    placeholder="name@example.com" />
+                                <label for="useremail">Email address</label>
                             </div>
-                            <a href="">Forgot Password</a>
-                        </div>
-                        <button type="submit" id="loginRequest" class="btn btn-primary py-3 w-100 mb-4">Sign In</button>
-                        <p class="text-center mb-0">Don't have an Account? <a href="{{ route('register') }}">Sign Up</a></p>
+                            <div class="form-floating mb-4">
+                                <input type="password" name="password" class="form-control" id="userpassword"
+                                    placeholder="Password" />
+                                <label for="userpassword">Password</label>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="form-check">
+                                    {{-- <input type="checkbox" class="form-check-input" id="exampleCheck1" /> --}}
+                                    {{-- <label class="form-check-label" for="exampleCheck1">Check me out</label> --}}
+                                </div>
+                                <a href="">Forgot Password</a>
+                            </div>
+                            <button type="submit" id="loginRequest" class="btn btn-primary py-3 w-100 mb-4">Sign
+                                In</button>
+                            <p class="text-center mb-0">Don't have an Account? <a href="{{ route('register') }}">Sign Up</a>
+                            </p>
+                        </form>
+
+
                     </div>
                 </div>
             </div>
@@ -56,7 +67,7 @@
 @endsection
 
 @push('footer')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#loginRequest').click(function() {
                 // Retrieve values from input fields
@@ -91,5 +102,5 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 @endpush

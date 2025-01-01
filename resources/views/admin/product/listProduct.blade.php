@@ -27,10 +27,11 @@
                             <th scope="col">SNO</th>
                             <th scope="col">SUN</th>
                             <th scope="col">Category</th>
-                            <th scope="col">Sub Category</th>
+                            <th scope="col">Height</th>
+                            <th scope="col">SGST</th>
+                            <th scope="col">CGST</th>
                             <th scope="col">Inventory</th>
                             <th scope="col">Price</th>
-                            <th scope="col">SGST</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -39,15 +40,23 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $item['SKU'] }}</td>
-                                <td>{{ $item['parentcategory'] ? $item['parentcategory']['name'] : '' }}</td>
-                                <td>{{ $item['childcategory'] ? $item['childcategory']['name'] : '' }}</td>
-                                <td>{{ $item['inventory'] ? $item['inventory']['quantity'] : '' }}</td>
-                                <td>{{ $item['inventory'] ? $item['inventory']['price'] : '' }}</td>
-                                <td>{{ $item['SGST'] }}</td>
+                                <td>{{ $item['category']['name'] ?? ' ' }}</td>
+                                <td>{{ $item['height'] ?? '' }}</td>
+                                <td>{{ $item['sgst']['gst'] ?? '' }}</td>
+                                <td>{{ $item['cgst']['gst'] ?? '' }}</td>
+                                <td>{{ $item['inventory']['quantity'] ?? '' }}</td>
+                                <td>{{ $item['inventory']['price'] ?? '' }}</td>
                                 <td>
                                     {{-- <a class="btn btn-sm btn-primary" href="{{route("admin.editProduct")}}">Detail</a> --}}
-                                    <a class="btn btn-sm btn-primary" href="{{route("admin.editProduct", ['productId'=>$item['id']])}}">Edit</a>
-                                    <a class="btn btn-sm btn-primary" href="">View</a>
+                                    <a class="btn btn-sm btn-success"
+                                        href="{{ route('admin.viewProduct', ['productId' => $item['id']]) }}">View</a>
+
+                                    <a class="btn btn-sm btn-success"
+                                        href="{{ route('admin.editProduct', ['productId' => $item['id']]) }}">Edit</a>
+
+                                    <a class="btn btn-sm btn-primary"
+                                        href="{{ route('admin.deleteProduct', ['productId' => $item['id']]) }}">Delete</a>
+
                                 </td>
                             </tr>
                         @endforeach

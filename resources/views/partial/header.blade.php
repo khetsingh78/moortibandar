@@ -100,8 +100,13 @@
              <div class="col-lg-3">
                  <div class="header__right">
                      <div class="header__right__auth">
-                         <a href="{{ route('login') }}">Login</a>
-                         <a href="{{ route('register') }}">Register</a>
+                         @if (Auth::user())
+                             <a href="{{ route('user.profile') }}">My Account</a>
+                             <a href="{{ route('logout') }}">Logut</a>
+                         @else
+                             <a href="{{ route('login') }}">Login</a>
+                             <a href="{{ route('register') }}">Register</a>
+                         @endif
                      </div>
                      <ul class="header__right__widget">
                          <li><span class="icon_search search-switch"></span></li>

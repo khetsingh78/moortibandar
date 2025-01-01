@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('gsttax', function (Blueprint $table) {
+        Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->enum('SGST', ['18%', '12%', '9%', '6%', '0%'])->default('0%');
-            $table->enum('CGST', ['18%', '12%', '9%', '6%', '0%'])->default('0%');
-            $table->string('Description', 200)->nullable();
+            $table->foreignId("user_id")->references("id")->on("users")->constrained("users", "id");
+            $table->foreignId("role_id")->references("id")->on("roles")->constrained("roles", "id");
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gsttax');
+        Schema::dropIfExists('user_roles');
     }
 };

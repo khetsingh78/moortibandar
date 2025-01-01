@@ -15,13 +15,12 @@ return new class extends Migration
     {
         Schema::create('product_inventory', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id')->unsigned(); //referencing
+            $table->foreignId('product_id')->constrained("product", "id")->cascadeOnDelete(); //referencing
             $table->integer('quantity')->default(0);
-            $table->decimal('price')->default(0);
-           
+            $table->decimal('price', 10, 2)->default(0);
+
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

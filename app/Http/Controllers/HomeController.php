@@ -4,67 +4,64 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['parentcategory', 'childcategory', 'discount', 'inventory', 'images'])->get()->toArray();
+        $products = Product::with(['category', 'discount', 'sgst', 'cgst', 'inventory', 'images'])->get();
         // print_r($products);
         // die();
         return view('welcome', compact('products'));
     }
+
     public function shop(Request $request)
     {
 
         $category = $request->category;
-        $subcategory = $request->subcategory;
 
-        if (isset($subcategory)) {
-            $catid = Category::where('name', '=', $subcategory)->first()->toArray();
-            $columnname = "child_category_id";
-        } else {
-            $catid = Category::where('name', '=', $category)->first()->toArray();
-            $columnname = "parent_category_id";
-        }
-        $products = Product::with(['parentcategory', 'childcategory', 'discount', 'inventory', 'images'])->where([
-            [$columnname, '=', $catid],
-            // ['child_category_id', '=', $childcategory],
-        ])->get()->toArray();
+        // echo $category ;
 
-        if (count($products) > 0) {
+
+
+        // $id = Category::where("name", $request->category)->first();
+        // $ids = Category::where("parent_id", $id->id)->pluck("id");
+
+        $id = Category::with("childCategories")->where("name", $request->category)->firstOrFail()->toArray();
+        $ids = array_map(function ($item) {
+            return $item["id"];
+        }, $id["child_categories"]);
+
+        $products = Product::with(['category', 'discount', 'sgst', 'cgst', 'inventory', 'images'])->whereIn('category_id', $ids)->get();
+        // dd($products);
+
+
+        // $products = Product::with(['parentcategory', 'childcategory', 'discount', 'inventory', 'images'])->where([
+        //     [$columnname, '=', $catid],
+        //     // ['child_category_id', '=', $childcategory],
+        // ])->get()->toArray();
+
+        // if (count($products) > 0) {
             return view('shop', compact('products', 'category'));
-        } else {
-            echo "Records Not Found";
-        }
+        // } else {
+        //     echo "Records Not Found";
+        // }
+
     }
 
     public function productDetails(Request $request)
     {
 
-        $category = $request->category;
-        $childcategory = $request->childcategory;
-        $title = $request->title;
 
-
-        $products = Product::with(['parentcategory', 'childcategory', 'discount', 'inventory', 'images'])->where([
-            // ['parent_category_id', '=', $category],
-            // ['child_category_id', '=', $childcategory],
-            ['title', '=', $title],
-        ])->get()->toArray();
-
-        $relevant = Product::with(['parentcategory', 'childcategory', 'discount', 'inventory', 'images'])->where([
-            ['title', 'like', "%{$title}%"],
-            // ['child_category_id', '=', $childcategory],
-        ])->get()->toArray();
-
-        // print_r($relevant);
-        // die();
-        if ($products) {
-            return view('product-details', compact('products', 'relevant'));
-        }
+        $product = Product::with(['category', 'discount', 'sgst', 'cgst', 'inventory', 'images'])->where("slug", '=', $request->slug)->firstOrFail();
+        $relevant = [];
+        return view('product-details', compact('product', 'relevant'));
     }
 
     public function shopCart(Request $request)
@@ -89,76 +86,121 @@ class HomeController extends Controller
         return view('contact');
     }
 
+
     public function login(Request $request)
     {
 
-        if (Auth::check()) {
-            if (Auth::user()->role == 'user') {
-                return redirect()->route('user.profile');
-            } elseif (Auth::user()->role == 'admin') {
-                return redirect()->route('admin.dashboard');
+
+        if ($request->isMethod("post")) {
+
+            $validator = $request->validate([
+                "email" => "required|max:225",
+                "password" => "required"
+            ]);
+
+            try {
+
+                $isExits = User::where("email", $validator["email"])->first();
+                if ($isExits) {
+                    if (!$isExits["email_verified_at"]) {
+                        return "send email to verify the";
+                    } else {
+
+                        if (Auth::attempt($validator, true)) {
+
+                            $result = User::select("id")->with("roles:id,name", "roles.permissions:id,name")->find(Auth::user()->id)->toArray();
+
+                            Session::put("roleName", $result["roles"][0]["name"]);
+                            Session::put("rolePermission", $result["roles"][0]["permissions"]);
+                            if ($result["roles"][0]["name"] === "user") {
+                                return redirect("/")->with("SuccessMessage", "User is logged successfully!");
+                            }
+                            return redirect()->route("admin.dashboard")->with("SuccessMessage", "Admin is logged successfully!");
+                        } else {
+
+                            return redirect("/login")->with("ErrorMessage", "User details are invalid!");
+                        }
+
+                        // $Email = $validator["email"];
+                        // return view("admin/otp", compact("Email"));
+                    }
+                }
+            } catch (\Throwable $th) {
+                return redirect()->back()->with("ErrorMessage", "Something went wrong try again!.");
             }
-        } else {
-            return view('admin/login');
         }
+        // dd("login page");
+        return view('admin/login');
     }
 
     public function register(Request $request)
     {
 
 
-        // if ($request->isMethod('post')) {
-        // }
-        return view('admin/register');
-    }
+        if ($request->isMethod('post')) {
+
+            $validator = $request->validate([
+                "name" => 'required|max:225',
+                "email" => 'required|unique:users,email',
+                "password" => 'required'
+            ]);
 
 
+            try {
+                $user = User::create([
+                    "name" => $validator["name"],
+                    "email" => $validator["email"],
+                    "password" => bcrypt($validator["password"])
+                ]);
 
 
-    //login method with details verification
-
-    public function loginRequest(Request $request)
-    {
-        // Retrieve data from the request
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        if (!empty($email) && !empty($password)) {
-
-            $credentials = $request->only('email', 'password');
-
-            if (Auth::attempt($credentials)) {
-                // Authentication passed...
-                // return redirect()->intended('dashboard');
-                $responseData = [
-                    'status' => 200,
-                    'message' => 'Login successfully',
-                    'data' => [
-                        'text' => "Show description"
-                    ],
-                ];
-            } else {
-
-                $responseData = [
-                    'status' => 400,
-                    'message' => 'Invalid Credencial',
-                    'data' => [
-                        'text' => "Show description"
-                    ],
-                ];
+                // if (Auth::attempt($validator)) {
+                return redirect("/")->with("SuccessMessage", "Add email verification functionality");
+                // } else {
+                //     return redirect("/login")->with("SuccessMessage", "registered successfully!");
+                // }
+            } catch (\Throwable $th) {
+                return redirect()->back()->with("ErrorMessage", "Can't register");
+                // echo "exception is executed";
             }
-        } else {
-            $responseData = [
-                'status' => 400,
-                'message' => "Invalid Detail's"
-            ];
         }
 
-        return response()->json($responseData);
+        return view('admin/register');
+    }
+    public function VerifyOtp(Request $request)
+    {
+
+
+        if ($request->isMethod('post')) {
+
+            $validator = $request->validate([
+                "email" => 'required|unique:users,email',
+                "otp" => 'required|max:6'
+            ]);
+
+
+            try {
+
+
+                // if (Auth::attempt($validator)) {
+                //     return redirect("/")->with("SuccessMessage", "registered successfully!");
+                // } else {
+                //     return redirect("/login")->with("SuccessMessage", "registered successfully!");
+                // }
+                return print_r($request);
+            } catch (\Throwable $th) {
+                return redirect()->back()->with("ErrorMessage", "Can't Verify Try Again!.");
+                // echo "exception is executed";
+            }
+        }
+
+        return view('admin/otp');
     }
 
     public function logout(Request $request)
     {
+        // print_r(Auth::user());
+        $request->session()->flush();
         Auth::logout();
         return redirect()->to('/');
     }

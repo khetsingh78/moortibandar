@@ -18,14 +18,16 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique()->nullable();
             $table->integer('phone')->unique()->nullable();
+            $table->tinyInteger('otp')->nullable();
+            $table->timestamp('otp_verified_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('role', 10)->default('user');
+            // $table->string('role', 10)->default('user');
             $table->enum('gender', ['male', 'female', 'other']);
+            $table->string('profile_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

@@ -3,12 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -17,11 +20,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
+
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'password',
+    //     'otp',
+    //     'profile_url'
+    // ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -32,6 +39,21 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+
+    public function Roles()
+    {
+        return $this->belongsToMany(Roles::class, "user_roles", "user_id", "role_id");
+    }
+
+    public function hasRole($role)
+    {
+
+        return $this->Roles->contains("name", $role);
+
+    }
+
+
 
     /**
      * The attributes that should be cast.

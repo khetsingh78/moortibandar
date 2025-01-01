@@ -32,20 +32,15 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ URL::asset('public/admin/css/style.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('public/admin/lib/toast/toastr.css') }}" rel="stylesheet">
+
     @stack('header')
 </head>
 
 <body>
 
     <div class="container-fluid position-relative d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
+
 
 
         <!-- Sidebar Start -->
@@ -71,35 +66,10 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    {{-- @if (Session::has('ErrorMessage'))
-        <div class="toast align-items-center  bg-danger" id="liveToast" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-delay="5000" data-bs-autohide="true">
-            <div class="d-flex">
-                <div class="toast-body overflow-auto">
-                    {{ Session::get('ErrorMessage') }}
-                    show error message 
-                </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
-    @if (Session::has('SuccessMessage'))
-        <div class="toast align-items-center" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true"
-            data-bs-delay="5000" data-bs-autohide="true">
-            <div class="d-flex">
-                <div class="toast-body overflow-auto">
-                    {{ Session::get('SuccessMessage') }}
-                </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-    @endif --}}
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="{{ URL::asset('public/admin/lib/chart/chart.min.js') }}"></script>
     <script src="{{ URL::asset('public/admin/lib/easing/easing.min.js') }}"></script>
     <script src="{{ URL::asset('public/admin/lib/waypoints/waypoints.min.js') }}"></script>
@@ -107,19 +77,21 @@
     <script src="{{ URL::asset('public/admin/lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ URL::asset('public/admin/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
     <script src="{{ URL::asset('public/admin/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script src="{{ URL::asset('public/admin/lib/toast/toastr.min.js') }}"></script>
 
     <!-- Template Javascript -->
     <script src="{{ URL::asset('public/admin/js/main.js') }}"></script>
-    {{-- <script>
-        function TriggerToast() {
-            const toastLiveExample = document.getElementById('liveToast')
-            if (toastLiveExample) {
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                toastBootstrap.show()
-            }
-        }
-        TriggerToast();
-    </script> --}}
+    <script>
+        @if (Session::has('SuccessMessage'))
+            toastr.options.timeOut = 5000;
+            toastr.success("{{ Session::get('SuccessMessage') }}");
+        @endif
+        @if (Session::has('ErrorMessage'))
+            toastr.options.timeOut = 5000;
+            toastr.error("{{ Session::get('ErrorMessage') }}");
+        @endif
+    </script>
+
     @stack('footer')
 </body>
 

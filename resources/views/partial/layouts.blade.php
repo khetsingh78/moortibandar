@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ URL::asset('/public/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ URL::asset('/public/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ URL::asset('/public/css/style.css') }}" type="text/css">
+    <link href="{{ URL::asset('public/admin/lib/toast/toastr.css') }}" rel="stylesheet">
 
     @stack('header')
 </head>
@@ -53,30 +54,7 @@
         </a>
     </div> --}}
 
-    {{-- @if (Session::has('ErrorMessage'))
-        <div class="toast align-items-center  bg-danger" id="liveToast" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-delay="5000" data-bs-autohide="true">
-            <div class="d-flex">
-                <div class="toast-body overflow-auto">
-                    {{ Session::get('ErrorMessage') }}
-                </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
-    @if (Session::has('SuccessMessage'))
-        <div class="toast align-items-center" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true"
-            data-bs-delay="5000" data-bs-autohide="true">
-            <div class="d-flex">
-                <div class="toast-body overflow-auto">
-                    {{ Session::get('SuccessMessage') }}
-                </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-    @endif --}}
+
 
 
 
@@ -90,22 +68,20 @@
     <script src="{{ URL::asset('/public/js/owl.carousel.min.js') }}"></script>
     <script src="{{ URL::asset('/public/js/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ URL::asset('/public/js/main.js') }}"></script>
+    <script src="{{ URL::asset('public/admin/lib/toast/toastr.min.js') }}"></script>
 
-    {{-- <script src="{{ URL::asset('/public/assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/assets/aos/aos.js') }}"></script>
+
+
     <script>
-        AOS.init();
+        @if (Session::has('SuccessMessage'))
+            toastr.options.timeOut = 5000;
+            toastr.success("{{ Session::get('SuccessMessage') }}");
+        @endif
+        @if (Session::has('ErrorMessage'))
+            toastr.options.timeOut = 5000;
+            toastr.error("{{ Session::get('ErrorMessage') }}");
+        @endif
     </script>
-    <script>
-        function TriggerToast() {
-            const toastLiveExample = document.getElementById('liveToast')
-            if (toastLiveExample) {
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                toastBootstrap.show()
-            }
-        }
-        TriggerToast();
-    </script> --}}
     @stack('footer')
 
 </body>
