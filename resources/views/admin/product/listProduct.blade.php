@@ -18,7 +18,7 @@
         <div class="bg-secondary text-center rounded p-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h6 class="mb-0">All product's</h6>
-                <a href="">Show All</a>
+                <a href="{{ route('admin.addProduct') }}" class="btn btn-sm btn-success">Add Product</a>
             </div>
             <div class="table-responsive">
                 <table class="table text-start align-middle table-bordered table-hover mb-0" id="myTable">
@@ -28,22 +28,20 @@
                             <th scope="col">SUN</th>
                             <th scope="col">Category</th>
                             <th scope="col">Height</th>
-                            <th scope="col">SGST</th>
-                            <th scope="col">CGST</th>
+                            <th scope="col">GST</th>
                             <th scope="col">Inventory</th>
                             <th scope="col">Price</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $key => $item)
+                        @foreach ($products ?? [] as $key => $item)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $item['SKU'] }}</td>
                                 <td>{{ $item['category']['name'] ?? ' ' }}</td>
                                 <td>{{ $item['height'] ?? '' }}</td>
-                                <td>{{ $item['sgst']['gst'] ?? '' }}</td>
-                                <td>{{ $item['cgst']['gst'] ?? '' }}</td>
+                                <td>{{ $item['gst']['gst'] ?? '' }}</td>
                                 <td>{{ $item['inventory']['quantity'] ?? '' }}</td>
                                 <td>{{ $item['inventory']['price'] ?? '' }}</td>
                                 <td>

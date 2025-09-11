@@ -15,13 +15,12 @@ return new class extends Migration
     {
         Schema::create('product_discount', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('description', 250);
-            $table->enum('dis_percent', ['0%', '5%', '10%', '15%', '25%', '50%', '75%'])->default('0%');
-            $table->enum('status', ['active', 'dective'])->default('dective');
+            $table->string('name', 225);
+            $table->enum('type', ['flat', 'precent']);
+            $table->string('value', 225);
+            $table->enum('status', ['0', '1'])->default('1');
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

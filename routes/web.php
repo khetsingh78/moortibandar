@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\user\UserController;
+use App\Http\Controllers\WishlistController;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -23,70 +26,35 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop/{category}', [HomeController::class, 'shop'])->name('shop');
 Route::get('/view-product/{slug}', [HomeController::class, 'productDetails'])->name('productDetails');
-Route::get('/shop-cart', [HomeController::class, 'shopCart'])->name('shopCart');
-Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::any('/contact', [HomeController::class, 'contact'])->name('contact');
 
-Route::any('/login', [HomeController::class, 'login'])->name('login')->middleware("guest");
-Route::any('/register', [HomeController::class, 'register'])->name('register')->middleware("guest");
-Route::any('/verify-otp', [HomeController::class, 'VerifyOtp'])->name('VerifyOtp')->middleware("guest");
-Route::get('/logout', [HomeController::class, 'logout'])->name('logout')->middleware('auth');
+Route::any('/login', [AuthController::class, 'login'])->name('login')->middleware("guest");
+Route::any('/register', [AuthController::class, 'register'])->name('register')->middleware("guest");
+Route::any('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp')->middleware("guest");
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('demo', function () {
-
     $user = Auth::user();
     echo $user;
 })->middleware("auth");
 
-Route::get('test', function () {
-
-    //roles function is a global fuction of helper folder file which allows us to access the method of file without calling or using the class file.
-    // $roles = roles();
-    // print_r($roles);
-
-    // $users = User::all();
-    // $users = User::get();
-    // $users = User::first();
 
 
+Route::resource('wishlist', WishlistController::class);
+Route::resource('cart', CartController::class);
+Route::post('aapply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
+Route::delete('remove-coupon', [CartController::class, 'removeCoupon'])->name('remove-coupon');
 
-    // $result = User::with("roles")->first();
-    // print_r($result->hasRole("user"));
-
-    // $result = $users->append(['team', 'is_admin']);
-    // $result = $users->contains("email", "khetsinghyogi@gmail.com");
-    // $result = $users->findOrFail(1);
-    // $result = $users->setVisible(['id', 'name']);
-    // $result = $users->makeHidden(['id', 'name']);
-    // $result = $users->modelKeys();
-    // $result = $users->only([1, 2, 3]);
-
-
-
-    //    $result = $users->append(['team', 'is_admin']);
-
-
-    // $result = $result->hasRole("super-admin");
-
-    // print_r(Auth::user()->id);
-    // print_r($result["roles"][0]["permissions"]);
-
-    // $role = Session::get("roleName");
-    // print_r($role);
-    // $result = User::select("id")->with("roles:id,name", "roles.permissions:id,name")->find(Auth::user()->id)->toArray();
-
-});
-
-
-Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/list-product', [AdminController::class, 'listProduct'])->name('admin.listProduct');
     Route::any('/add-product', [AdminController::class, 'addPrduct'])->name('admin.addProduct');
     Route::get('/edit-product/{productId}', [AdminController::class, 'editProduct'])->name('admin.editProduct');
     Route::post('/edit-product', [AdminController::class, 'editProduct'])->name('admin.editProductRequest');
     Route::get('/delete-product/{productId}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
     Route::get('/view-product/{productId}', [AdminController::class, 'viewProduct'])->name('admin.viewProduct');
-    Route::get('/list-product', [AdminController::class, 'listProduct'])->name('admin.listProduct');
 
     //category routes
     Route::any('/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
@@ -96,8 +64,7 @@ Route::prefix('admin')->middleware(['auth', 'checkAdmin'])->group(function () {
     Route::get('/list-category', [AdminController::class, 'listCategory'])->name('admin.listCategory');
 });
 
-Route::middleware(['auth', 'checkUser'])->group(function () {
-
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'dashboard'])->name('user.profile');
     Route::post('/upload-photo', [UserController::class, 'uploadPhoto'])->name('user.photo');
 });

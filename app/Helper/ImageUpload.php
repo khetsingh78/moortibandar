@@ -18,7 +18,7 @@ class ImageUpload
 
                 if ($image["name"][$key] != "" && $image["name"][$key] != null) {
 
-                    $target_dir = "public/img/product/details/fullview/";
+                    $target_dir = "img/product/details/fullview/";
                     $target_file = $target_dir . basename($image["name"][$key]);
 
                     $uploadOk = 1;
@@ -116,7 +116,7 @@ class ImageUpload
         } else {
             if ($image["name"] != "" && $image["name"] != null) {
 
-                $target_dir = "public/img/product/";
+                $target_dir = "img/product/";
                 $target_file = $target_dir . basename($image["name"]);
 
                 $uploadOk = 1;

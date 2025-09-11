@@ -32,13 +32,9 @@ class Product extends Model
     {
         return $this->belongsTo(ProductDiscount::class, 'discount_id', 'id');
     }
-    public function sgst()
+    public function gst()
     {
-        return $this->belongsTo(Gsttax::class, 'sgst_id', 'id');
-    }
-    public function cgst()
-    {
-        return $this->belongsTo(Gsttax::class, 'sgst_id', 'id');
+        return $this->belongsTo(Gsttax::class, 'gst_id', 'id');
     }
 
     public function inventory()

@@ -21,17 +21,17 @@
                     <h6 class="mb-4">Edit Product Details</h6>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="{{ $products['title'] }}" name="heading"
+                        <input type="text" class="form-control" value="{{ $products['title'] ?? '' }}" name="heading"
                             id="floatingInput" placeholder="Enter Product Heading" />
                         <label for="floatingInput">Enter Heading</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="{{ $products['short_description'] }}"
+                        <input type="text" class="form-control" value="{{ $products['short_description'] ?? '' }}"
                             name="sortdescription" id="floatingInput" placeholder="Enter Product Heading" />
                         <label for="floatingInput">Enter Short Description</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="{{ $products['long_description'] }}"
+                        <input type="text" class="form-control" value="{{ $products['long_description'] ?? '' }}"
                             name="longdescription" id="floatingInput" placeholder="Enter Product Heading" />
                         <label for="floatingInput">Enter Long Description</label>
                     </div>
@@ -39,10 +39,11 @@
                     <div class="form-floating mb-3">
                         <select class="form-select" name="category" id="floatingSelect"
                             aria-label="Floating label select example">
-                            <option selected value="{{ $products['category']['id'] }}">{{ $products['category']['name'] }}
+                            <option selected value="{{ $products['category']['id'] }}">
+                                {{ $products['category']['name'] ?? '' }}
                             </option>
-                            @foreach ($category as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                            @foreach ($category ?? [] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['name'] ?? '' }}</option>
                             @endforeach
                         </select>
                         <label for="floatingSelect">Select Category</label>
@@ -51,43 +52,33 @@
                         <select class="form-select" name="discount" id="floatingSelect"
                             aria-label="Floating label select example">
                             <option selected value="{{ $products['discount']['id'] }}">
-                                {{ $products['discount']['dis_percent'] }}</option>
-                            @foreach ($discount as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['dis_percent'] }}</option>
+                                {{ $products['discount']['dis_percent'] ?? '' }}</option>
+                            @foreach ($discount ?? [] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['dis_percent'] ?? '' }}</option>
                             @endforeach
                         </select>
                         <label for="floatingSelect">Discount</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" name="sgst" id="floatingSelect"
+                        <select class="form-select" name="gst" id="floatingSelect"
                             aria-label="Floating label select example">
-                            <option selected value="{{ $products['sgst']['id'] }}">
-                                {{ $products['sgst']['gst'] }}</option>
-                            @foreach ($gst as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['gst'] }}</option>
+                            <option selected value="{{ $products['gst']['id'] ?? '' }}">
+                                {{ $products['gst']['gst'] ?? '' }}</option>
+                            @foreach ($gst ?? [] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['gst'] ?? '' }}</option>
                             @endforeach
 
                         </select>
-                        <label for="floatingSelect">SGST</label>
+                        <label for="floatingSelect">GST</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" name="cgst" id="floatingSelect"
-                            aria-label="Floating label select example">
-                            <option selected value="{{ $products['cgst']['id'] }}">
-                                {{ $products['cgst']['gst'] }}</option>
-                            @foreach ($gst as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['gst'] }}</option>
-                            @endforeach
-                        </select>
-                        <label for="floatingSelect">CGST</label>
-                    </div>
+
                     <div class="form-floating mb-3">
                         <select class="form-select" name="height" id="floatingSelect"
                             aria-label="Floating label select example">
                             <option selected value="{{ $products['height'] }}">
                                 {{ $products['height'] }}</option>
-                            @foreach (height() as $key => $item)
-                                <option> {{ $item['name'] }}</option>
+                            @foreach (height() ?? [] as $key => $item)
+                                <option> {{ $item['name'] ?? '' }}</option>
                             @endforeach
 
                         </select>
@@ -97,9 +88,9 @@
                         <select class="form-select" name="dimension" id="floatingSelect"
                             aria-label="Floating label select example">
                             <option selected value="{{ $products['dimension'] }}">
-                                {{ $products['dimension'] }}</option>
-                            @foreach (dimension() as $key => $item)
-                                <option> {{ $item['name'] }}</option>
+                                {{ $products['dimension'] ?? '' }}</option>
+                            @foreach (dimension() ?? [] as $key => $item)
+                                <option> {{ $item['name'] ?? '' }}</option>
                             @endforeach
 
                         </select>
@@ -109,9 +100,9 @@
                         <select class="form-select" name="marbaltype" id="floatingSelect"
                             aria-label="Floating label select example">
                             <option selected value="{{ $products['marbaltype'] }}">
-                                {{ $products['marbaltype'] }}</option>
-                            @foreach (marbal() as $key => $item)
-                                <option> {{ $item['name'] }}</option>
+                                {{ $products['marbaltype'] ?? '' }}</option>
+                            @foreach (marbal() ?? [] as $key => $item)
+                                <option> {{ $item['name'] ?? '' }}</option>
                             @endforeach
                         </select>
                         <label for="floatingSelect">Choose Marbal</label>
@@ -119,10 +110,10 @@
                     <div class="form-floating mb-3">
                         <select class="form-select" name="paintingtype" id="floatingSelect"
                             aria-label="Floating label select example">
-                            <option selected value="{{ $products['paintingtype'] }}">
+                            <option selected value="{{ $products['paintingtype'] ?? '' }}">
                                 {{ $products['paintingtype'] }}</option>
-                            @foreach (painting() as $key => $item)
-                                <option> {{ $item['name'] }}</option>
+                            @foreach (painting() ?? [] as $key => $item)
+                                <option> {{ $item['name'] ?? '' }}</option>
                             @endforeach
 
                         </select>
@@ -142,12 +133,13 @@
                     <input type="text" name="productId" value="{{ $products['id'] }}" id="" hidden />
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="{{ $products['inventory']['quantity'] }}"
-                            name="quantity" id="floatingInput" placeholder="Enter Product Quantity" />
+                        <input type="text" class="form-control"
+                            value="{{ $products['inventory']['quantity'] ?? '' }}" name="quantity" id="floatingInput"
+                            placeholder="Enter Product Quantity" />
                         <label for="floatingInput">Enter Quantity</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="{{ $products['inventory']['price'] }}"
+                        <input type="text" class="form-control" value="{{ $products['inventory']['price'] ?? '' }}"
                             name="price" id="floatingInput" placeholder="Enter Product Price" />
                         <label for="floatingInput">Enter Price</label>
                     </div>
@@ -179,8 +171,9 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <img src="{{ URL::asset('public/storage/' . $products['cover_image']) }}"
-                                alt="{{ $products['alt_image'] }}" srcset="" style="height: 200px; width:400px">
+                            <img src="{{ asset($products['cover_image'] ?? '') }}"
+                                alt="{{ $products['alt_image'] ?? '' }}" srcset=""
+                                style="height: 200px; width:400px">
                         </div>
                     </div>
                     <div class="form-floating mb-3 ">
@@ -194,6 +187,8 @@
                 <form action="{{ route('admin.editProductRequest') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="text" name="updateType" value="featuredImage" id="" hidden />
+                    <input type="text" name="productId" value="{{ $products['id'] }}" id="" hidden />
+
                     <div class="form-floating mb-3">
                         <input type="file" name="allImagesOfProduct[]" class="form-control" id="floatingInput"
                             placeholder="Enter Product Heading" multiple>
@@ -204,21 +199,16 @@
                     </div>
                 </form>
                 <div class="row">
-                    @foreach ($products->images as $key => $item)
-                    <div class="col-3">
-                        <img src="{{ URL::asset('public/storage/' . $item['image_name']) }}"
-                        alt="{{ $products['alt_image'] }}" srcset="" style="height: 200px; width: 200px" />
-                    </div>
+                    @foreach ($products->images ?? [] as $key => $item)
+                        <div class="col-3">
+                            <img src="{{ asset($item['image_name'] ?? '') }}" alt="{{ $products['alt_image'] ?? '' }}"
+                                srcset="" style="height: 200px; width: 200px" />
+                        </div>
                     @endforeach
-
                 </div>
             </div>
-
-
         </div>
     </div>
-
 @endsection
-
 @push('footer')
 @endpush

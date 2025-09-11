@@ -16,15 +16,15 @@
         rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/bootstrap.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/font-awesome.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/elegant-icons.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/jquery-ui.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/magnific-popup.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/owl.carousel.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/slicknav.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ URL::asset('/public/css/style.css') }}" type="text/css">
-    <link href="{{ URL::asset('public/admin/lib/toast/toastr.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ URL::asset('/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ URL::asset('/css/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ URL::asset('/css/elegant-icons.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ URL::asset('/css/jquery-ui.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ URL::asset('/css/magnific-popup.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ URL::asset('/css/owl.carousel.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ URL::asset('/css/slicknav.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ URL::asset('/css/style.css') }}" type="text/css">
+    <link href="{{ URL::asset('admin/lib/toast/toastr.css') }}" rel="stylesheet">
 
     @stack('header')
 </head>
@@ -40,7 +40,7 @@
     {{-- <div class="whatsappButton">
         <a href="https://wa.me/6378015536" target="_blank">
             <div class=" mx-auto" style="height: 50px; width:50px;">
-                <img src="{{ URL::asset('/public/assets/images/icons/whatsapp.png') }}" alt="whatsapp" srcset=""
+                <img src="{{ URL::asset('/assets/images/icons/whatsapp.png') }}" alt="whatsapp" srcset=""
                     style="height: 100%; width:100%" />
             </div>
         </a>
@@ -48,7 +48,7 @@
     <div class="CallButton">
         <a href="tel:6378015536" target="_blank">
             <div class=" mx-auto" style="height: 50px; width:50px;">
-                <img src="{{ URL::asset('/public/assets/images/icons/call.png') }}" alt="whatsapp" srcset=""
+                <img src="{{ URL::asset('/assets/images/icons/call.png') }}" alt="whatsapp" srcset=""
                     style="height: 100%; width:100%" />
             </div>
         </a>
@@ -57,21 +57,18 @@
 
 
 
-
-    <script src="{{ URL::asset('/public/js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/jquery-ui.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/mixitup.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/jquery.countdown.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/jquery.slicknav.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/jquery.nicescroll.min.js') }}"></script>
-    <script src="{{ URL::asset('/public/js/main.js') }}"></script>
-    <script src="{{ URL::asset('public/admin/lib/toast/toastr.min.js') }}"></script>
-
-
-
+    <script src="{{ URL::asset('/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/bootstrap.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/mixitup.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/jquery.slicknav.js') }}"></script>
+    <script src="{{ URL::asset('/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/main.js') }}"></script>
+    <script src="{{ URL::asset('/js/ajax.js') }}"></script>
+    <script src="{{ URL::asset('admin/lib/toast/toastr.min.js') }}"></script>
     <script>
         @if (Session::has('SuccessMessage'))
             toastr.options.timeOut = 5000;
@@ -81,6 +78,23 @@
             toastr.options.timeOut = 5000;
             toastr.error("{{ Session::get('ErrorMessage') }}");
         @endif
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function sweet(status, message) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end', // Top-right
+                icon: status === "success" ? 'success' : 'error',
+                title: message,
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            });
+        }
     </script>
     @stack('footer')
 

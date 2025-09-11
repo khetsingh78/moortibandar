@@ -17,7 +17,7 @@
                     <div class="breadcrumb__links">
                         <a href="{{ route('home') }}"><i class="fa fa-home"></i> Home</a>
                         <a href="#"><span>Shop</span></a>
-                        <a href="#"><span>{{ $category }} </span></a>
+                        <a href="#"><span>{{ $category['name'] ?? '' }} </span></a>
                         {{-- <a href="#">{{ $products[0]['childcategory']['name'] }} </a> --}}
                     </div>
                 </div>
@@ -38,40 +38,27 @@
                             </div>
                             <div class="categories__accordion">
                                 <div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-heading active">
-                                            <a data-toggle="collapse" data-target="#collapseOne">Women</a>
-                                        </div>
-                                        <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <ul>
-                                                    <li><a href="#">Coats</a></li>
-                                                    <li><a href="#">Jackets</a></li>
-                                                    <li><a href="#">Dresses</a></li>
-                                                    <li><a href="#">Shirts</a></li>
-                                                    <li><a href="#">T-shirts</a></li>
-                                                    <li><a href="#">Jeans</a></li>
-                                                </ul>
+
+                                    @foreach ($category ?? [] as $item)
+                                        <div class="card">
+                                            <div class="card-heading active">
+                                                <a data-toggle="collapse"
+                                                    data-target="#{{ $item->name ?? '' }}">{{ Str::ucfirst($item->name) ?? '' }}</a>
+                                            </div>
+                                            <div id="{{ $item->name ?? '' }}" class="collapse show"
+                                                data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    <ul>
+                                                        @foreach ($item->childCategories ?? [] as $subcat)
+                                                            <li><a
+                                                                    href="{{ route('shop', ['category' => $item->name, 'subcategory' => $subcat['name']]) }}">{{ Str::ucfirst($subcat['name']) ?? '' }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-heading ">
-                                            <a data-toggle="collapse" data-target="#collapseTwo">Men</a>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <ul>
-                                                    <li><a href="#">Coats</a></li>
-                                                    <li><a href="#">Jackets</a></li>
-                                                    <li><a href="#">Dresses</a></li>
-                                                    <li><a href="#">Shirts</a></li>
-                                                    <li><a href="#">T-shirts</a></li>
-                                                    <li><a href="#">Jeans</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
 
                                 </div>
                             </div>
@@ -153,22 +140,22 @@
                 </div>
                 <div class="col-lg-9 col-md-9">
                     <div class="row">
-                        @foreach ($products as $key => $item)
+                        @foreach ($products ?? [] as $key => $item)
                             <div class="col-md-4 col-sm-6">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg"
-                                        data-setbg="{{ URL::asset('/public/storage/' . $item['cover_image']) }}">
+                                        data-setbg="{{ asset($item['cover_image'] ?? '') }}">
                                         <div class="label new">New</div>
                                         <ul class="product__hover">
-                                            <li><a href="{{ URL::asset('/public/storage/' . $item['cover_image']) }}"
-                                                    class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            <li><a href="{{ asset($item['cover_image'] ?? '') }}" class="image-popup"><span
+                                                        class="arrow_expand"></span></a></li>
                                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
                                         <h6><a
-                                                href="{{ route('productDetails', ['slug' => $item['slug']]) }}">{{ $item['title'] }}</a>
+                                                href="{{ route('productDetails', ['slug' => $item['slug']]) }}">{{ $item['title'] ?? '' }}</a>
                                         </h6>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
@@ -177,19 +164,34 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">{{ $item['inventory']['price'] }}</div>
+                                        <div class="product__price">{{ $item['inventory']['price'] ?? '' }}</div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
 
-
                         <div class="col-lg-12 text-center">
                             <div class="pagination__option">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#"><i class="fa fa-angle-right"></i></a>
+                                @if ($products->onFirstPage())
+                                    <a class="disabled" href="#"><i class="fa fa-angle-left"></i></a>
+                                @else
+                                    <a href="{{ $products->previousPageUrl() }}"><i class="fa fa-angle-left"></i></a>
+                                @endif
+                                {{-- Page numbers --}}
+                                @for ($i = 1; $i <= $products->lastPage(); $i++)
+                                    @if ($i == $products->currentPage())
+                                        <a class="active" href="#">{{ $i }}</a>
+                                    @else
+                                        <a href="{{ $products->url($i) }}">{{ $i }}</a>
+                                    @endif
+                                @endfor
+
+                                {{-- Next page link --}}
+                                @if ($products->hasMorePages())
+                                    <a href="{{ $products->nextPageUrl() }}"><i class="fa fa-angle-right"></i></a>
+                                @else
+                                    <a class="disabled" href="#"><i class="fa fa-angle-right"></i></a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -200,60 +202,7 @@
     <!-- Shop Section End -->
 
     <!-- Instagram Begin -->
-    <div class="instagram">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-FooterImages />
     <!-- Instagram End -->
 
 @endsection

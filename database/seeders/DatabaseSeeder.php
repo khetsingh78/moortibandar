@@ -88,26 +88,26 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        $discount = discount();
-        if (!empty($discount)) {
-            foreach ($discount as $key => $value) {
-                \App\Models\ProductDiscount::factory()->create([
-                    "name" =>  $value["name"],
-                    "description" =>  $value["description"],
-                    "dis_percent" => $value["dis_percent"],
-                    "status" => $value["status"],
-                ]);
-            }
-        }
+        // $discount = discount();
+        // if (!empty($discount)) {
+        //     foreach ($discount as $key => $value) {
+        //         \App\Models\ProductDiscount::factory()->create([
+        //             "name" =>  $value["name"],
+        //             "description" =>  $value["description"],
+        //             "dis_percent" => $value["dis_percent"],
+        //             "status" => $value["status"],
+        //         ]);
+        //     }
+        // }
 
-        $gsttax = gsttax();
-        if (!empty($gsttax)) {
-            foreach ($gsttax as $key => $value) {
-                \App\Models\Gsttax::factory()->create([
-                    "gst" =>  $value["gst"],
-                    "description" =>  $value["description"],
-                ]);
-            }
-        }
+        // $gsttax = gsttax();
+        // if (!empty($gsttax)) {
+        //     foreach ($gsttax as $key => $value) {
+        //         \App\Models\Gsttax::factory()->create([
+        //             "gst" =>  $value["gst"],
+        //             "description" =>  $value["description"],
+        //         ]);
+        //     }
+        // }
     }
 }

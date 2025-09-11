@@ -16,44 +16,33 @@
             <form action="{{ route('admin.addProduct') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="bg-secondary rounded h-100 p-4">
-                    <h6 class="mb-4">Add Product Details</h6>
+                    <h6 class="mb-4">Add Product</h6>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="heading" id="floatingInput"
-                            placeholder="Enter Product Heading" />
+                        <input type="text" class="form-control" name="heading" value="{{ old('heading') }}"
+                            id="floatingInput" placeholder="Enter Product Heading" />
                         <label for="floatingInput">Enter Heading</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="quantity" id="floatingInput"
-                            placeholder="Enter Product Quantity" />
+                        <input type="text" class="form-control" name="quantity" value="{{ old('quantity') }}"
+                            id="floatingInput" placeholder="Enter Product Quantity" />
                         <label for="floatingInput">Enter Quantity</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="price" id="floatingInput"
-                            placeholder="Enter Product Quantity" />
+                        <input type="text" class="form-control" name="price" value="{{ old('price') }}"
+                            id="floatingInput" placeholder="Enter Product Quantity" />
                         <label for="floatingInput">Enter Price</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="sortdescription" id="floatingInput"
-                            placeholder="Enter Product Heading" />
+                        <input type="text" class="form-control" name="sortdescription"
+                            value="{{ old('sortdescription') }}" id="floatingInput" placeholder="Enter Product Heading" />
                         <label for="floatingInput">Enter Short Description</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="longdescription" id="floatingInput"
-                            placeholder="Enter Product Heading" />
+                        <input type="text" class="form-control" name="longdescription"
+                            value="{{ old('longdescription') }}" id="floatingInput" placeholder="Enter Product Heading" />
                         <label for="floatingInput">Enter Long Description</label>
                     </div>
-                    {{-- <div class="form-floating mb-3">
-                        <select class="form-select" name="parentcategory" id="floatingSelect"
-                            aria-label="Floating label select example">
-                            <option selected value=""> Select Category</option>
-                            @foreach ($parentCategory as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                            @endforeach
-
-                        </select>
-                        <label for="floatingSelect">Parent Category</label>
-                    </div> --}}
                     <div class="form-floating mb-3">
                         <select class="form-select" name="category" id="floatingSelect"
                             aria-label="Floating label select example">
@@ -75,25 +64,15 @@
                         <label for="floatingSelect">Discount</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" name="sgst" id="floatingSelect"
+                        <select class="form-select" name="gst" id="floatingSelect"
                             aria-label="Floating label select example">
-                            <option selected value="">Select SGST</option>
+                            <option selected value="">Select GST</option>
                             @foreach ($gst as $key => $item)
                                 <option value="{{ $item['id'] }}">{{ $item['gst'] }}</option>
                             @endforeach
 
                         </select>
-                        <label for="floatingSelect">SGST</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" name="cgst" id="floatingSelect"
-                            aria-label="Floating label select example">
-                            <option selected value="">Select CGST</option>
-                            @foreach ($gst as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['gst'] }}</option>
-                            @endforeach
-                        </select>
-                        <label for="floatingSelect">CGST</label>
+                        <label for="floatingSelect">GST</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" name="height" id="floatingSelect"

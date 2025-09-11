@@ -18,7 +18,7 @@ return new class extends Migration
 
         Schema::create('gsttax', function (Blueprint $table) {
             $table->id();
-            $table->string('gst', 10)->default('0%');
+            $table->string('gst', 225)->default('0');
             $table->string('description', 200)->nullable();
             $table->timestamps();
             $table->softDeletes();

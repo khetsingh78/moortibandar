@@ -25,9 +25,8 @@ return new class extends Migration
 
 
             $table->foreignId("category_id")->constrained("product_category", "id")->onDelete("cascade");
-            $table->foreignId("discount_id")->constrained("product_discount", "id")->onDelete("cascade");
-            $table->foreignId("sgst_id")->constrained("gsttax", "id")->onDelete("cascade");
-            $table->foreignId("cgst_id")->constrained("gsttax", "id")->onDelete("cascade");
+            // $table->foreignId("discount_id")->constrained("product_discount", "id")->onDelete("cascade");
+            // $table->foreignId("gst_id")->constrained("gsttax", "id")->onDelete("cascade");
 
             $table->string('height', 100)->nullable();
             $table->string('dimension', 100)->nullable();

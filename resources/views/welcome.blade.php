@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-lg-6 p-0">
                     <div class="categories__item categories__large__item set-bg"
-                        data-setbg="{{ URL::asset('/public/img/categories/parasnath-moorti.jpg') }}">
+                        data-setbg="{{ URL::asset('/img/categories/parasnath-moorti.jpg') }}">
                         <div class="categories__text">
                             <h1>Jain Collection Statue</h1>
                             <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
@@ -28,7 +28,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                             <div class="categories__item set-bg"
-                                data-setbg="{{ URL::asset('/public/img/categories/ganesh-moorti.jpg') }}">
+                                data-setbg="{{ URL::asset('/img/categories/ganesh-moorti.jpg') }}">
                                 <div class="categories__text">
                                     <h4>Hindu Statue</h4>
                                     <p>358 items</p>
@@ -38,18 +38,18 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                             <div class="categories__item set-bg"
-                                data-setbg="{{ URL::asset('/public/img/categories/mahavir-moorti.jpg') }}">
+                                data-setbg="{{ URL::asset('/img/categories/mahavir-moorti.jpg') }}">
                                 <div class="categories__text">
                                     <h4>Mahavir Moorti</h4>
                                     <p>273 items</p>
-                                    <a href="{{ route('shop', ['category' => 'jain-statue']) }}">Shop
+                                    <a href="{{ route('shop', ['category' => 'mahavir']) }}">Shop
                                         now</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                             <div class="categories__item set-bg"
-                                data-setbg="{{ URL::asset('/public/img/categories/parasnath-statue.jpg') }}">
+                                data-setbg="{{ URL::asset('/img/categories/parasnath-statue.jpg') }}">
                                 <div class="categories__text">
                                     <h4>Parasnath Moorti</h4>
                                     <p>159 items</p>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                             <div class="categories__item set-bg"
-                                data-setbg="{{ URL::asset('/public/img/categories/gautam-swami-moorti.jpg') }}">
+                                data-setbg="{{ URL::asset('/img/categories/gautam-swami-moorti.jpg') }}">
                                 <div class="categories__text">
                                     <h4>Gautam Swami Moorti</h4>
                                     <p>792 items</p>
@@ -90,7 +90,7 @@
                         <li class="active" data-filter="*">All</li>
                         <li data-filter=".jain-statue">Jain statue</li>
                         <li data-filter=".hindu-statue">Hindi statue</li>
-                        <li data-filter=".mahavir">Mahavir</li>
+                        {{-- <li data-filter=".mahavir">Mahavir</li> --}}
                         {{-- <li data-filter=".accessories">Accessories</li>
                         <li data-filter=".cosmetic">Cosmetics</li> --}}
                     </ul>
@@ -99,18 +99,19 @@
 
 
             <div class="row property__gallery">
-                @foreach ($products as $key => $item)
+                @foreach ($products ?? [] as $key => $item)
                     <div
-                        class="col-lg-3 col-md-4 col-sm-6 mix {{ $item['category']['name'] }} {{ $item['category']['name'] }}">
+                        class="col-lg-3 col-md-4 col-sm-6 mix {{ $item['category']['name'] ?? '' }} {{ $item['category']['name'] ?? '' }}">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg"
-                                data-setbg="{{ URL::asset('public/storage/' . $item['cover_image']) }}">
+                            <div class="product__item__pic set-bg" data-setbg="{{ asset($item['cover_image']) ?? '' }}">
                                 <div class="label new">New</div>
                                 <ul class="product__hover">
-                                    <li><a href="{{ URL::asset('public/storage/' . $item['cover_image']) }}"
-                                            class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                    <li><a href="{{ asset($item['cover_image']) ?? '' }}" class="image-popup"><span
+                                                class="arrow_expand"></span></a></li>
+                                    <li><a href="javascript:void(0)"><span class="icon_heart_alt add-to-wishlist"
+                                                data-product_id="{{ $item['id'] }}"></span></a></li>
+                                    <li><a href="javascript:void(0)"><span class="icon_bag_alt add-to-cart"
+                                                data-product_id="{{ $item['id'] }}"></span></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -135,7 +136,7 @@
     <!-- Product Section End -->
 
     <!-- Banner Section Begin -->
-    <section class="banner set-bg" data-setbg="{{ URL::asset('/public/img/banner/banner-1.jpg') }}">
+    <section class="banner set-bg" data-setbg="{{ URL::asset('/img/banner/banner-1.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-xl-7 col-lg-8 m-auto">
@@ -179,7 +180,7 @@
                         </div>
                         <div class="trend__item">
                             <div class="trend__item__pic">
-                                <img src="{{ URL::asset('/public/img/trend/ht-1.jpg') }}" alt="">
+                                <img src="{{ URL::asset('/img/trend/ht-1.jpg') }}" alt="">
                             </div>
                             <div class="trend__item__text">
                                 <h6>Chain bucket bag</h6>
@@ -195,7 +196,7 @@
                         </div>
                         <div class="trend__item">
                             <div class="trend__item__pic">
-                                <img src="{{ URL::asset('/public/img/trend/ht-2.jpg') }}" alt="">
+                                <img src="{{ URL::asset('/img/trend/ht-2.jpg') }}" alt="">
                             </div>
                             <div class="trend__item__text">
                                 <h6>Pendant earrings</h6>
@@ -348,7 +349,7 @@
             <div class="row">
                 <div class="col-lg-6 p-0">
                     <div class="discount__pic">
-                        <img src="{{ URL::asset('/public/img/discount.jpg') }}" alt="">
+                        <img src="{{ URL::asset('/img/discount.jpg') }}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 p-0">
@@ -420,64 +421,8 @@
         </div>
     </section>
     <!-- Services Section End -->
-
+    <x-FooterImages />
     <!-- Instagram Begin -->
-    <div class="instagram">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg"
-                        data-setbg="{{ URL::asset('/public/img/instagram/insta-1.jpg') }}">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg"
-                        data-setbg="{{ URL::asset('/public/img/instagram/insta-2.jpg') }}">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('footer')

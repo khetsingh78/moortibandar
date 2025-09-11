@@ -11,6 +11,7 @@ use App\Models\ProductInventory;
 use Illuminate\Http\Request;
 use App\Helper\ImageUpload;
 use App\Models\Gsttax;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Spatie\FlareClient\Http\Exceptions\InvalidData;
 use Illuminate\Support\Str;
@@ -29,35 +30,30 @@ class AdminController extends Controller
         try {
 
             if ($request->isMethod('post')) {
-                // dd(request()->all());
-                $validator = $request->validate([
-                    "coverimageurl" => "required|mimes:jpeg,png,jpg,svg",
-                    'allImagesOfProduct' => 'required|array', // Ensure it's an array
-                    'allImagesOfProduct.*' => 'required|mimes:jpeg,png,jpg,svg',
+                $request->validate([
                     'heading' => 'required',
                     'sortdescription' => 'required',
                     'longdescription' => 'required',
-                    // 'parentcategory' => 'required',
                     'category' => 'required',
                     'discount' => 'required',
-                    'sgst' => 'required',
-                    'cgst' => 'required',
-                    'cgst' => 'required',
+                    'gst' => 'required',
                     'height' => 'required',
                     'dimension' => 'required',
                     'marbaltype' => 'required',
                     'coverimagealt' => 'required',
 
+                    "coverimageurl" => "required|mimes:jpeg,png,jpg,svg",
+                    'allImagesOfProduct' => 'required|array',
+                    'allImagesOfProduct.*' => 'required|mimes:jpeg,png,jpg,svg',
                 ]);
 
-                $coverimageurl = $request->file("coverimageurl")->store("public/products/coverImage");
-                $coverimageurl = removeStorageFolderaImage($coverimageurl);
-                // $coverimageurl = Storage::url($coverimageurl);
+                $coverimageurl = $request->file("coverimageurl")->store("product", 'public');
+                $coverimageurl = asset($coverimageurl);
+
                 $AllProductImageArray = [];
                 foreach ($request->allImagesOfProduct as $key => $image) {
-                    $imgpath = $image->store("public/products/featuredImage");
-                    $imgpath = removeStorageFolderaImage($imgpath);
-                    $AllProductImageArray[] = $imgpath;
+                    $imgpath = $image->store("prodcut_gallery", 'public');
+                    $AllProductImageArray[] = asset($imgpath);
                 }
 
                 $product = Product::create([
@@ -68,8 +64,7 @@ class AdminController extends Controller
                     'long_description' => trim($request->longdescription),
                     'category_id' => $request->category,
                     'discount_id' => $request->discount,
-                    'sgst_id' => $request->sgst,
-                    'cgst_id' => $request->cgst,
+                    'gst_id' => $request->gst,
                     'height' => $request->height,
                     'dimension' => $request->dimension,
                     'marbaltype' => $request->marbaltype,
@@ -78,52 +73,31 @@ class AdminController extends Controller
                     'alt_image' => trim($request->coverimagealt),
                 ]);
 
+                $inventory =  ProductInventory::create([
+                    'product_id' => $product->id,
+                    'quantity' => intval(trim($request->quantity)),
+                    'price' => number_format((float)trim($request->price), 2, '.', ''),
+                ]);
 
-                if ($product->id !== "" && $product->id > 0) {
-
-                    $inventory =  ProductInventory::create([
+                $images = [];
+                foreach ($AllProductImageArray as $key => $value) {
+                    $images[] =  [
                         'product_id' => $product->id,
-                        'quantity' => intval(trim($request->quantity)),
-                        'price' => number_format((float)trim($request->price), 2, '.', ''),
-                    ]);
-
-                    $images = [];
-                    foreach ($AllProductImageArray as $key => $value) {
-                        $images[] =  [
-                            'product_id' => $product->id,
-                            'image_name' => trim($value),
-                            'image_alt' =>  trim($request->coverimagealt)
-                        ];
-                    }
-                    $result =  ProductImages::insert($images);
-                    return redirect()->back()->with('SuccessMessage', 'Successfully  added!');
-                } else {
-
-                    return redirect()->back()->with('ErrorMessage', 'Something went wrong!');
+                        'image_name' => trim($value),
+                        'image_alt' =>  trim($request->coverimagealt)
+                    ];
                 }
+                $result =  ProductImages::insert($images);
+                return redirect()->back()->with('SuccessMessage', 'Successfully  added.');
             } else {
-
-
-                $category = Category::select('id', "name", "parent_id")->get()->toArray();
+                $category = Category::select('id', "name")->where('parent_id', '!=', null)->get();
                 $discount = ProductDiscount::get();
                 $gst = Gsttax::get();
-
-                $category = array_filter($category, function ($value) {
-                    if (isset($value["parent_id"])) {
-                        return  $value;
-                    }
-                });
-                // $parentCategory = array_filter($category, function ($value) {
-                //     if (!isset($value["parent_id"])) {
-                //         return  $value;
-                //     }
-                // });
-
                 return view('admin/product/addProduct', compact('category', 'discount', 'gst'));
             }
         } catch (\Throwable $th) {
-            return redirect()->back()->with("ErrorMessage", $th->getMessage());
-            // die($th->getMessage());
+            Log::error($th->getMessage());
+            return redirect()->back()->with("ErrorMessage", "Something went wrong try again.")->withInput();
         }
     }
 
@@ -131,124 +105,84 @@ class AdminController extends Controller
     public function editProduct(Request $request)
     {
 
-        try {
-            if ($request->isMethod('post')) {
+        if ($request->isMethod('post')) {
+            // dd($request->all());
+            try {
+                if ($request->updateType == "productDetails") {
+                    $validator = $request->validate([
+                        'heading' => 'required',
+                        'sortdescription' => 'required',
+                        'longdescription' => 'required',
+                        'category' => 'required',
+                        'discount' => 'required',
+                        'gst' => 'required',
+                        'height' => 'required',
+                        'dimension' => 'required',
+                        'marbaltype' => 'required',
 
-                if (isset($request->productId)) {
-                    if ($request->updateType == "productDetails") {
-                        $validator = $request->validate([
-                            'heading' => 'required',
-                            'sortdescription' => 'required',
-                            'longdescription' => 'required',
-                            'category' => 'required',
-                            'discount' => 'required',
-                            'sgst' => 'required',
-                            'cgst' => 'required',
-                            'cgst' => 'required',
-                            'height' => 'required',
-                            'dimension' => 'required',
-                            'marbaltype' => 'required',
+                        // 'allImagesOfProduct' => 'required|array',
+                        // 'allImagesOfProduct.*' => 'required|mimes:jpeg,png,jpg,svg',
 
-                            // 'allImagesOfProduct' => 'required|array',
-                            // 'allImagesOfProduct.*' => 'required|mimes:jpeg,png,jpg,svg',
+                    ]);
 
-                        ]);
+                    $isExist =  Product::findOrFail($request->productId);
+                    $isExist->title = trim($request->heading);
+                    $isExist->short_description =  trim($request->sortdescription);
+                    $isExist->long_description = trim($request->longdescription);
+                    $isExist->category_id = intval($request->category);
+                    $isExist->discount_id = intval($request->discount);
+                    $isExist->gst_id = intval($request->gst);
+                    $isExist->height = $request->height;
+                    $isExist->dimension = $request->dimension;
+                    $isExist->marbaltype = $request->marbaltype;
+                    $isExist->paintingtype = $request->paintingtype;
+                    $isExist->save();
+                    return redirect()->back()->with("SuccessMessage", "Successfully Updated.");
+                } elseif ($request->updateType == "inventory") {
+                    $validator = $request->validate([
+                        'quantity' => 'required',
+                        'price' => 'required',
+                    ]);
 
-                        $isExist =  Product::findOrFail($request->productId);
-                        $isExist->title = trim($request->heading);
-                        $isExist->short_description =  trim($request->sortdescription);
-                        $isExist->long_description = trim($request->longdescription);
-                        $isExist->category_id = intval($request->category);
-                        $isExist->discount_id = intval($request->discount);
-                        $isExist->sgst_id = intval($request->sgst);
-                        $isExist->cgst_id = intval($request->cgst);
-                        $isExist->height = $request->height;
-                        $isExist->dimension = $request->dimension;
-                        $isExist->marbaltype = $request->marbaltype;
-                        $isExist->paintingtype = $request->paintingtype;
-                        $isExist->save();
-                        return redirect()->back()->with("SuccessMessage", "Successfully Updated!");
-                    } elseif ($request->updateType == "inventory") {
-                        $validator = $request->validate([
-                            'quantity' => 'required',
-                            'price' => 'required',
-                        ]);
-
-                        $inventory = ProductInventory::where('product_id', '=', $request->productId)->first();
-                        $inventory->quantity = intval(trim($request->quantity));
-                        $inventory->price = number_format((float)trim($request->price), 2, '.', '');
-                        $inventory->save();
-                        return redirect()->back()->with("SuccessMessage", "Successfully Updated Inventory!");
-                    } elseif ($request->updateType == "coverimageurl") {
-                        dd($request->updateType);
-                    } elseif ($request->updateType == "featuredImage") {
-                        dd($request->updateType);
+                    $inventory = ProductInventory::where('product_id', '=', $request->productId)->first();
+                    $inventory->quantity = intval(trim($request->quantity));
+                    $inventory->price = number_format((float)trim($request->price), 2, '.', '');
+                    $inventory->save();
+                    return redirect()->back()->with("SuccessMessage", "Successfully Updated Inventory");
+                } elseif ($request->updateType == "coverImage") {
+                    $isExist =  Product::findOrFail($request->productId);
+                    $previous_img = explode($request->getSchemeAndHttpHost(), $isExist->cover_image)[1];
+                    if (Storage::disk('public')->exists($previous_img)) {
+                        Storage::disk('public')->delete($previous_img);
                     }
-
-
-                    // $isExist =  Product::with("inventory")->find($request->id);
-                    // print_r($isExist);
-                    // $isExist->title = trim($request->heading);
-                    // $isExist->short_description =  trim($request->sortdescription);
-                    // $isExist->long_description = trim($request->longdescription);
-                    // $isExist->parent_category_id = intval($request->parentcategory);
-                    // $isExist->child_category_id = intval($request->childcategory);
-                    // $isExist->discount_id = intval($request->discount);
-                    // $isExist->SGST = intval($request->sgst);
-                    // $isExist->CGST = intval($request->cgst);
-                    // $isExist->height = $request->height;
-                    // $isExist->dimension = $request->dimension;
-                    // $isExist->marbaltype = $request->marbaltype;
-                    // $isExist->paintingtype = $request->paintingtype;
-
-                    // $preQuantity = $isExist["inventory"]["quantity"];
-                    // $prePrice = $isExist["inventory"]["price"];
-
-                    // $result = $isExist->save();
-                    // if ($result) {
-                    //     if ($preQuantity !== intval($request->quantity) || $prePrice !== $request->price) {
-                    //         $isInventory = ProductInventory::find($isExist["inventory"]["id"]);
-                    //         $isInventory->quantity = $request->quantity;
-                    //         $isInventory->price = $request->price;
-                    //         $result = $isInventory->save();
-
-                    //         return redirect()->route('admin.listProduct');
-                    //     } else {
-                    //         return redirect()->route('admin.listProduct');
-                    //     }
-                    // } else {
-                    //     return redirect()->back()->with('ErrorMessage', 'Invalid Details!');
-                    // }
-
-
-                } else {
-                    return redirect()->back()->with('ErrorMessage', 'Invalid Details!');
-                }
-            } else {
-
-                if (isset($request->productId)) {
-                    $category = Category::select('id', "name", "parent_id")->get()->toArray();
-                    $discount = ProductDiscount::get();
-                    $gst = Gsttax::get();
-
-                    $category = array_filter($category, function ($value) {
-                        if (isset($value["parent_id"])) {
-                            return  $value;
-                        }
-                    });
-
-                    $products = Product::with(['category', 'discount', 'sgst', 'cgst', 'discount', 'inventory', 'images'])->find($request->productId);
-                    // dd($products);
-                    if ($products) {
-                        return view('admin/product/editProduct', compact('products', 'category', 'discount', 'gst'));
+                    $cover_image_url = $request->file("coverimageurl")->store("product", 'public');
+                    $cover_image_url = asset($cover_image_url);
+                    $isExist->cover_image = $cover_image_url;
+                    $isExist->save();
+                    return redirect()->back()->with("SuccessMessage", "Successfully Updated.");
+                } elseif ($request->updateType == "featuredImage") {
+                    $images = [];
+                    foreach ($request->allImagesOfProduct as $key => $image) {
+                        $imgpath = $image->store("prodcut_gallery", 'public');
+                        $images[] =  [
+                            'product_id' => $request->productId,
+                            'image_name' => asset($imgpath),
+                            'image_alt' =>  trim($request->coverimagealt)
+                        ];
                     }
-                } else {
-                    return redirect()->back()->with('ErrorMessage', 'Invalid Details!');
+                    $result =  ProductImages::insert($images);
+                    return redirect()->back()->with('SuccessMessage', 'Updated successfully.');
                 }
+            } catch (\Throwable $th) {
+                Log::info($th->getMessage());
+                return redirect()->back()->with("ErrorMessage", "Something went wrong. try again.");
             }
-        } catch (\Throwable $th) {
-            return redirect()->back()->with("ErrorMessage", $th->getMessage());
         }
+        $category = Category::select('id', "name", "parent_id")->where('parent_id', '!=', null)->get();
+        $discount = ProductDiscount::get();
+        $gst = Gsttax::get();
+        $products = Product::with(['category', 'discount', 'gst', 'discount', 'inventory', 'images'])->findOrFail($request->productId);
+        return view('admin/product/editProduct', compact('products', 'category', 'discount', 'gst'));
     }
 
     public function deleteProduct(Request $request)
@@ -283,16 +217,8 @@ class AdminController extends Controller
 
     public function listProduct(Request $request)
     {
-
-        try {
-            $products = Product::with(['category', 'discount', 'sgst', 'cgst', 'inventory', 'images'])->get();
-            if (count($products) > 0) {
-                return view('admin/product/ListProduct', compact('products'));
-            }
-            return redirect()->back()->with("ErrorMessage", "Product not found");
-        } catch (\Throwable $th) {
-            return redirect()->back()->with("ErrorMessage", $th->getMessage());
-        }
+        $products = Product::with(['category', 'discount', 'gst', 'inventory', 'images'])->get();
+        return view('admin/product/ListProduct', compact('products'));
     }
 
     //Category methods

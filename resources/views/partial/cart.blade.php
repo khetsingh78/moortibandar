@@ -4,7 +4,7 @@
         <a href="{{ route('plan', [$items['id'], $items['Category']]) }}" class="text-decoration-none">
             <div class=" card most_popular_plan_card border-0 box-shadow-light  " style="width: 100%;">
                 <div class="container1">
-                    <img src="{{asset("/public/". $items['CoverImage']) }}" class=" image card-img-top" alt="...">
+                    <img src="{{asset("/". $items['CoverImage']) }}" class=" image card-img-top" alt="...">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title my-0">{{ substr($items['Title'], 0, 23) }}..</h5>

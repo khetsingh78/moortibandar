@@ -164,55 +164,16 @@ function discount()
 
     $discount = [
         [
-            "name" => "product name",
-            "description" => "percentage of project is very according to state",
-            "dis_percent" => "0%",
-            "status" => "dective",
+            "name" => "Diwali offer",
+            "type" => "flat",
+            "value" => 50,
 
         ],
         [
-            "name" => "product name",
-            "description" => "percentage of project is very according to state",
-            "dis_percent" => "5%",
-            "status" => "dective",
-
-        ],
-        [
-            "name" => "product name",
-            "description" => "percentage of project is very according to state",
-            "dis_percent" => "10%",
-            "status" => "dective",
-
-        ],
-        [
-            "name" => "product name",
-            "description" => "percentage of project is very according to state",
-            "dis_percent" => "15%",
-            "status" => "dective",
-
-        ],
-        [
-            "name" => "product name",
-            "description" => "percentage of project is very according to state",
-            "dis_percent" => "25%",
-            "status" => "dective",
-
-        ],
-        [
-            "name" => "product name",
-            "description" => "percentage of project is very according to state",
-            "dis_percent" => "50%",
-            "status" => "dective",
-
-        ],
-        [
-            "name" => "product name",
-            "description" => "percentage of project is very according to state",
-            "dis_percent" => "75%",
-            "status" => "dective",
-
-        ],
-
+            "name" => "Raksha bandan offer",
+            "type" => "precent",
+            "value" => 10,
+        ]
     ];
 
     return $discount;
@@ -223,35 +184,35 @@ function gsttax()
 
     $gsttax = [
         [
-            "gst" => "0%",
+            "gst" => "0",
             "description" => "goods and servie tax.",
         ],
         [
-            "gst" => "5%",
+            "gst" => "5",
             "description" => "goods and servie tax.",
         ],
         [
-            "gst" => "10%",
+            "gst" => "10",
             "description" => "goods and servie tax.",
         ],
         [
-            "gst" => "12%",
+            "gst" => "12",
             "description" => "goods and servie tax.",
         ],
         [
-            "gst" => "16%",
+            "gst" => "16",
             "description" => "goods and servie tax.",
         ],
         [
-            "gst" => "18%",
+            "gst" => "18",
             "description" => "goods and servie tax.",
         ],
         [
-            "gst" => "20%",
+            "gst" => "20",
             "description" => "goods and servie tax.",
         ],
         [
-            "gst" => "24%",
+            "gst" => "24",
             "description" => "goods and servie tax.",
         ]
 

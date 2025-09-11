@@ -16,7 +16,7 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active carouse_items" data-bs-interval="5000">
-                <img src="https://ballonsdecor.com/public/assets/images/slider/banner_image_01.jpg" class="img-fluid " alt="..."
+                <img src="https://ballonsdecor.com/assets/images/slider/banner_image_01.jpg" class="img-fluid " alt="..."
                     style="height: 100%; width:100%">
                 <div class="carousel-caption d-none d-md-block carousel-caption-box">
                     <h1 class="crousel-heading">Birthday Decoration</h1>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="carousel-item carouse_items" data-bs-interval="5000">
-                <img src="https://ballonsdecor.com/public/assets/images/slider/banner_image_02.jpg" class="d-block w-100"
+                <img src="https://ballonsdecor.com/assets/images/slider/banner_image_02.jpg" class="d-block w-100"
                     alt="..." style="height: 100%; width:100%">
                 <div class="carousel-caption d-none d-md-block carousel-caption-box">
                     <h1 class="crousel-heading">Oh Baby</h1>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="carousel-item carouse_items" data-bs-interval="5000">
-                <img src="https://ballonsdecor.com/public/assets/images/slider/banner_image_03.jpg" class="d-block w-100"
+                <img src="https://ballonsdecor.com/assets/images/slider/banner_image_03.jpg" class="d-block w-100"
                     alt="..." style="height: 100%; width:100%">
                 <div class="carousel-caption d-none d-md-block carousel-caption-box">
                     <h1 class="crousel-heading">Baby Shower</h1>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="carousel-item carouse_items" data-bs-interval="5000">
-                <img src="https://ballonsdecor.com/public/assets/images/slider/banner_image_04.jpg" class="d-block w-100"
+                <img src="https://ballonsdecor.com/assets/images/slider/banner_image_04.jpg" class="d-block w-100"
                     alt="..." style="height: 100%; width:100%">
                 <div class="carousel-caption d-none d-md-block carousel-caption-box">
                     <h1 class="crousel-heading">Bithday decoration</h1>
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="carousel-item carouse_items" data-bs-interval="5000">
-                <img src="https://ballonsdecor.com/public/assets/images/slider/banner_image_05.jpg" class="d-block w-100"
+                <img src="https://ballonsdecor.com/assets/images/slider/banner_image_05.jpg" class="d-block w-100"
                     alt="..." style="height: 100%; width:100%">
                 <div class="carousel-caption d-none d-md-block carousel-caption-box">
                     <h1 class="crousel-heading">Anniversary Decoration</h1>
@@ -86,7 +86,7 @@
                 </div>
             </div>
                <div class="carousel-item carouse_items" data-bs-interval="5000">
-                <img src="https://ballonsdecor.com/public/assets/images/slider/banner_image_06.jpg" class="d-block w-100"
+                <img src="https://ballonsdecor.com/assets/images/slider/banner_image_06.jpg" class="d-block w-100"
                     alt="..." style="height: 100%; width:100%">
                 <div class="carousel-caption d-none d-md-block carousel-caption-box">
                     <h1 class="crousel-heading">Love Theme</h1>

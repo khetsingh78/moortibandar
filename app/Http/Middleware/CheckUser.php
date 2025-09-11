@@ -9,23 +9,11 @@ use Illuminate\Support\Facades\Session;
 
 class CheckUser
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request, Closure $next)
     {
-        $roleName = Session::get("roleName") ?? false;
-
-        if ($roleName == 'user') {
-            return $next($request);
-        } elseif ($roleName == 'super-admin') {
-            return redirect()->route('admin.dashboard');
-        } else {
-            return redirect()->route("login");
+        if (!Auth::check() || !Auth::user()->hasRole('super-admin')) {
+            abort(403, 'unauthorized');
         }
+        return $next($request);
     }
 }
