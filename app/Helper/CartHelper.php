@@ -71,6 +71,7 @@ class CartHelper
             'coupon'       => number_format($couponAmount, 0),
             'gst'          => number_format($gstAmount, 0),
             'final_total'  => number_format(round($finalTotal), 0),
+            'content' => $cartContent,
         ];
     }
 }

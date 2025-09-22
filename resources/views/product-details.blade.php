@@ -65,20 +65,26 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
-                        <div class="product__details__price">{{ $product['inventory']['price'] ?? '' }} <span>
+                        <div class="product__details__price">&#8377;{{ $product['inventory']['price'] ?? '' }} <span>
                                 {{ $product['discount']['dis_percent'] ?? '' }}</span></div>
                         <p>{{ $product['short_description'] ?? '' }}</p>
                         <div class="product__details__button">
                             <div class="quantity">
                                 <span>Quantity:</span>
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="text" data-product_id="{{ $product->id ?? '' }}" {{-- data-item_price="{{ $product->price }}" --}}
+                                        class="update-qty" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <a href="javascript:void(0)" class="cart-btn add-to-cart"
+                                data-product_id="{{ $product['id'] }}">
+                                <span class="icon_bag_alt"></span> Add to cart</a>
                             <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                <li><a href="javascript:void(0)"><span class="icon_heart_alt add-to-wishlist"
+                                            data-product_id="{{ $product['id'] }}"></span></a></li>
+                                {{-- <li><a href="javascript:void(0)"><span class="icon_bag_alt add-to-cart"
+                                            data-product_id="{{ $item['id'] }}"></span></a></li> --}}
+                                <li><a href="javascript:void(0)"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__details__widget">

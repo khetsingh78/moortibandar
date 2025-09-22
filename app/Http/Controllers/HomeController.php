@@ -19,7 +19,10 @@ class HomeController extends Controller
     {
         $products = Product::with(['category', 'discount', 'gst', 'inventory', 'images'])->latest()->get();
         // dd(json_decode($products));
-        return view('welcome', compact('products'));
+        $trend = Product::with(['inventory'])->where('is_trend', "yes")->limit(3)->get();
+        $feature = Product::with(['inventory'])->where('is_feature', "yes")->limit(3)->get();
+        // dd(json_decode($trend), json_decode($feature));
+        return view('welcome', compact('products', 'trend', 'feature'));
     }
 
     public function shop(Request $request)
@@ -54,7 +57,7 @@ class HomeController extends Controller
         return view('product-details', compact('product', 'relevant'));
     }
 
-       public function contact(Request $request)
+    public function contact(Request $request)
     {
         if ($request->isMethod('post')) {
             try {
@@ -68,10 +71,15 @@ class HomeController extends Controller
                 return back()->with("SuccessMessage", "Inquire has beed sent.");
             } catch (\Throwable $th) {
                 Log::error($th->getMessage());
-                return back()->with("ErrorMessage", "Something went wrong try again.");
+                return back()->with("ErrorMessage", "Something went wrong.");
             }
         }
 
         return view('contact');
+    }
+
+    public function about(Request $request)
+    {
+        return view('about');
     }
 }

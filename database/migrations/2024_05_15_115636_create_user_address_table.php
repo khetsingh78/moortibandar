@@ -17,11 +17,12 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->unsigned();
             // $table->foreign('user_id')->references('id')->on('users');
-            $table->string('country', 50)->nullable();
-            $table->string('state', 50)->nullable();
-            $table->string('district', 50)->nullable();
-            $table->string('street', 50)->nullable();
-            $table->tinyInteger('pincode')->nullable();
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('district')->nullable();
+            $table->string('street')->nullable();
+            $table->string('house_no')->nullable();
+            $table->string('pincode')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

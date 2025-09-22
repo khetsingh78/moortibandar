@@ -22,9 +22,9 @@
                 <div class="footer__widget">
                     <h6>Menu</h6>
                     <ul>
-                        <li><a href="#">About</a></li>
+                        <li><a href="{{ route('about') }}">About</a></li>
                         <li><a href="#">Blogs</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
                 </div>
@@ -33,10 +33,10 @@
                 <div class="footer__widget">
                     <h6>Account</h6>
                     <ul>
-                        <li><a href="#">My Account</a></li>
+                        <li><a href="{{ route('user.profile') }}">My Account</a></li>
                         <li><a href="#">Orders Tracking</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="{{ route('checkout.index') }}">Checkout</a></li>
+                        <li><a href="{{ route('wishlist.index') }}">Wishlist</a></li>
                     </ul>
                 </div>
             </div>

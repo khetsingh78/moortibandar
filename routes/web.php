@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\WishlistController;
@@ -26,13 +27,18 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop/{category}', [HomeController::class, 'shop'])->name('shop');
 Route::get('/view-product/{slug}', [HomeController::class, 'productDetails'])->name('productDetails');
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::any('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::any('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::any('/login', [AuthController::class, 'login'])->name('login')->middleware("guest");
 Route::any('/register', [AuthController::class, 'register'])->name('register')->middleware("guest");
 Route::any('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp')->middleware("guest");
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::resource('/checkout', CheckoutController::class);
+Route::post('/checkout/payment-success', [CheckoutController::class, 'paymentSuccess'])->name('payment.success');
+
 
 Route::get('demo', function () {
     $user = Auth::user();

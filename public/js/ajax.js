@@ -154,7 +154,7 @@ $(document).ready(function () {
                 }
             },
             error: function (error) {
-                let message = 'Something went wrong. Try again.';
+                let message = 'Something went wrong.';
                 if (error.responseJSON && error.responseJSON.message) {
                     message = error.responseJSON.message;
                 }

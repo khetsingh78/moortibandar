@@ -1,0 +1,19 @@
+{
+    "deliver_status": [
+        "pending",
+        "processing",
+        "shipped",
+        "out_for_delivery",
+        "delivered",
+        "cancelled",
+        "returned"
+    ],
+    "payment_status": [
+        "pending",
+        "processing",
+        "paid",
+        "failed",
+        "refunded",
+        "cancelled"
+    ]
+}

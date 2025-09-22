@@ -34,85 +34,94 @@
                         here to enter your code.</h6>
                 </div>
             </div>
-            <form action="#" class="checkout__form">
+            <form id="checkout_form" class="checkout__form">
                 <div class="row">
                     <div class="col-lg-8">
                         <h5>Billing detail</h5>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
-                                    <p>First Name <span>*</span></p>
-                                    <input type="text">
+                                    <p>Name <span>*</span></p>
+                                    <input type="text" name="name" value="{{ $user->name ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Last Name <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Country <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="countory" value="{{ $user->usermeta->country ?? '' }}">
                                 </div>
-                                <div class="checkout__form__input">
-                                    <p>Address <span>*</span></p>
-                                    <input type="text" placeholder="Street Address">
-                                    <input type="text" placeholder="Apartment. suite, unite ect ( optinal )">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Town/City <span>*</span></p>
-                                    <input type="text">
-                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Country/State <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="state" value="{{ $user->usermeta->state ?? '' }}">
                                 </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="checkout__form__input">
+                                    <p>Town/City <span>*</span></p>
+                                    <input type="text" name="city" value="{{ $user->usermeta->city ?? '' }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Postcode/Zip <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="pincode" value="{{ $user->usermeta->pincode ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
-                                    <p>Phone <span>*</span></p>
-                                    <input type="text">
+                                    <p>Address <span>*</span></p>
+                                    <input type="text" placeholder="Street Address" name="street"
+                                        value="{{ $user->usermeta->street ?? '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
-                                    <p>Email <span>*</span></p>
-                                    <input type="text">
+                                    <p>House/Apartment No. <span>*</span></p>
+                                    <input type="text" name="house_no"
+                                        placeholder="Apartment. suite, unite ect ( optinal )"
+                                        value="{{ $user->usermeta->house_no ?? '' }}">
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="checkout__form__checkbox">
-                                    <label for="acc">
-                                        Create an acount?
-                                        <input type="checkbox" id="acc">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <p>Create am acount by entering the information below. If you are a returing
-                                        customer login at the <br />top of the page</p>
-                                </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
-                                    <p>Account Password <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                                <div class="checkout__form__checkbox">
-                                    <label for="note">
-                                        Note about your order, e.g, special noe for delivery
-                                        <input type="checkbox" id="note">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Oder notes <span>*</span></p>
-                                    <input type="text"
-                                        placeholder="Note about your order, e.g, special noe for delivery">
+                                    <p>Order notes for delivery<span>*</span></p>
+                                    <input type="text" name="delivery_note"
+                                        placeholder="Note about your order, special for delivery">
                                 </div>
                             </div>
+
+                            @if (!Auth::check())
+                                <div class="col-lg-12">
+                                    <div class="checkout__form__checkbox">
+                                        <label for="acc">
+                                            Create an acount?
+                                            <input type="checkbox" id="acc" name="create_account_check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <p> Enter your information below to sign up. Already have an account?
+                                            <a href="{{ route('login') }}" class="text-blue-600 hover:underline">
+                                                Login here
+                                            </a>.
+                                        </p>
+                                    </div>
+                                    <div class="checkout__form__input">
+                                        <p>Email <span>*</span></p>
+                                        <input type="text" placeholder="Enter Email" name="email"
+                                            value="{{ $user->email ?? '' }}">
+                                    </div>
+                                    <div class="checkout__form__input">
+                                        <p>Phone <span>*</span></p>
+                                        <input type="text" name="phone_no" placeholder="Enter Phone no."
+                                            value="{{ $user->phone ?? '' }}">
+                                    </div>
+                                    <div class="checkout__form__input">
+                                        <p>Account Password <span>*</span></p>
+                                        <input type="text" placeholder="Enter password" name="password">
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -124,38 +133,40 @@
                                         <span class="top__text">Product</span>
                                         <span class="top__text__right">Total</span>
                                     </li>
-                                    <li>01. Chain buck bag <span>$ 300.0</span></li>
-                                    <li>02. Zip-pockets pebbled<br /> tote briefcase <span>$ 170.0</span></li>
-                                    <li>03. Black jean <span>$ 170.0</span></li>
-                                    <li>04. Cotton shirt <span>$ 110.0</span></li>
+                                    @php
+                                        $index = 0;
+                                    @endphp
+                                    @foreach ($cart['content'] ?? [] as $key => $item)
+                                        @php
+                                            $index++;
+                                        @endphp
+                                        <li>{{ $index }}. {{ $item->name ?? '' }} <span>&#8377
+                                                {{ $item->price ?? '' }}</span></li>
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="checkout__order__total">
                                 <ul>
-                                    <li>Subtotal <span>$ 750.0</span></li>
-                                    <li>Total <span>$ 750.0</span></li>
+                                    <li>Price <span>&#8377 {{ $cart['price'] }}</span></li>
+                                    <li>Discount <span>- &#8377 {{ $cart['discount'] }}</span></li>
+                                    <li>Coupon <span>- &#8377 {{ $cart['coupon'] }}</span></li>
+                                    <li>GST <span>+ &#8377 {{ $cart['gst'] }}</span></li>
+                                    <li>Total <span>&#8377 {{ $cart['final_total'] }}</span></li>
                                 </ul>
                             </div>
                             <div class="checkout__order__widget">
-                                <label for="o-acc">
-                                    Create an acount?
-                                    <input type="checkbox" id="o-acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <p>Create am acount by entering the information below. If you are a returing customer
-                                    login at the top of the page.</p>
                                 <label for="check-payment">
-                                    Cheque payment
-                                    <input type="checkbox" id="check-payment">
+                                    Case On Delivery
+                                    <input type="radio" id="check-payment" value="case" name="payment_type">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label for="paypal">
-                                    PayPal
-                                    <input type="checkbox" id="paypal">
+                                    Online
+                                    <input type="radio" id="paypal" value="online" name="payment_type">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <button type="submit" class="site-btn">Place oder</button>
+                            <button type="button" class="site-btn" id="rzp-button">Place oder</button>
                         </div>
                     </div>
                 </div>
@@ -173,4 +184,54 @@
 @endsection
 
 @push('footer')
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById('rzp-button').onclick = async function(e) {
+            e.preventDefault();
+            let form = document.getElementById("checkout_form");
+            let formData = new FormData(form);
+            // Step 1: create order from backend
+            let response = await fetch("{{ route('checkout.store') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: formData
+            });
+
+            let order = await response.json();
+
+            // Step 2: Open Razorpay popup
+            var options = {
+                "key": order.key,
+                "amount": order.amount,
+                "currency": order.currency,
+                "name": "My Shop",
+                "description": "Order Payment",
+                "order_id": order.order_id,
+                "handler": function(res) {
+                    // Step 3: Send to backend for verification
+                    fetch("{{ route('payment.success') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                    .content
+                            },
+                            body: JSON.stringify(res)
+                        })
+                        .then(res => res.json())
+                        .then((data) => {
+                            if (data.status == "success") {
+                                alert(data.message);
+                            } else {
+                                alert(data.message);
+                            }
+                        });
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+    </script>
 @endpush

@@ -26,13 +26,13 @@ class AuthController extends Controller
                     if ($user->hasRole('super-admin')) {
                         return redirect()->route("admin.dashboard")->with("SuccessMessage", "Admin is logged successfully!");
                     }
+                    return redirect()->back()->with('SuccessMessage', 'Logged in successfully.');
                 } else {
-
-                    return redirect("/login")->with("ErrorMessage", "User details are invalid!");
+                    return redirect("/login")->with("ErrorMessage", "User details are invalid.");
                 }
             } catch (\Throwable $th) {
                 Log::error($th->getMessage());
-                return redirect()->back()->with("ErrorMessage", "Something went wrong try again!.");
+                return redirect()->back()->with("ErrorMessage", "Something went wrong try again.");
             }
         }
         return view('admin/login');
@@ -60,11 +60,12 @@ class AuthController extends Controller
 
 
                 // if (Auth::attempt($validator)) {
-                return redirect("/")->with("SuccessMessage", "Add email verification functionality");
+                return redirect()->back()->with("SuccessMessage", "We have sent email verification link.");
                 // } else {
                 //     return redirect("/login")->with("SuccessMessage", "registered successfully!");
                 // }
             } catch (\Throwable $th) {
+                Log::error($th->getMessage());
                 return redirect()->back()->with("ErrorMessage", "Can't register");
             }
         }

@@ -102,32 +102,7 @@
                 @foreach ($products ?? [] as $key => $item)
                     <div
                         class="col-lg-3 col-md-4 col-sm-6 mix {{ $item['category']['name'] ?? '' }} {{ $item['category']['name'] ?? '' }}">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="{{ asset($item['cover_image']) ?? '' }}">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="{{ asset($item['cover_image']) ?? '' }}" class="image-popup"><span
-                                                class="arrow_expand"></span></a></li>
-                                    <li><a href="javascript:void(0)"><span class="icon_heart_alt add-to-wishlist"
-                                                data-product_id="{{ $item['id'] }}"></span></a></li>
-                                    <li><a href="javascript:void(0)"><span class="icon_bag_alt add-to-cart"
-                                                data-product_id="{{ $item['id'] }}"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a
-                                        href="{{ route('productDetails', ['slug' => $item['slug']]) }}">{{ $item['title'] }}</a>
-                                </h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">{{ $item['inventory']['price'] }}</div>
-                            </div>
-                        </div>
+                        <x-product-item :item="$item" />
                     </div>
                 @endforeach
             </div>
@@ -178,54 +153,26 @@
                         <div class="section-title">
                             <h4>Hot Trend</h4>
                         </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="{{ URL::asset('/img/trend/ht-1.jpg') }}" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Chain bucket bag</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+
+                        @foreach ($trend ?? [] as $key => $item)
+                            <div class="trend__item">
+                                <div class="trend__item__pic">
+                                    <img src="{{ URL::asset($item->cover_image ?? '') }}" alt="" width="100px"
+                                        height="100px">
                                 </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="{{ URL::asset('/img/trend/ht-2.jpg') }}" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Pendant earrings</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                <div class="trend__item__text">
+                                    <h6>{{ $item->title ?? '' }}</h6>
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product__price">&#8377; {{ $item->inventory->price ?? '' }}</div>
                                 </div>
-                                <div class="product__price">$ 59.0</div>
                             </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="img/trend/ht-3.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Cotton T-Shirt</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
@@ -233,54 +180,25 @@
                         <div class="section-title">
                             <h4>Best seller</h4>
                         </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="img/trend/bs-1.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Cotton T-Shirt</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                        @foreach ($trend ?? [] as $key => $item)
+                            <div class="trend__item">
+                                <div class="trend__item__pic">
+                                    <img src="{{ URL::asset($item->cover_image ?? '') }}" alt="" width="100px"
+                                        height="100px">
                                 </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="img/trend/bs-2.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Zip-pockets pebbled tote <br />briefcase</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                <div class="trend__item__text">
+                                    <h6>{{ $item->title ?? '' }}</h6>
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product__price">&#8377; {{ $item->inventory->price ?? '' }}</div>
                                 </div>
-                                <div class="product__price">$ 59.0</div>
                             </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="img/trend/bs-3.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Round leather bag</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
@@ -288,54 +206,25 @@
                         <div class="section-title">
                             <h4>Feature</h4>
                         </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="img/trend/f-1.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Bow wrap skirt</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                        @foreach ($feature ?? [] as $key => $item)
+                            <div class="trend__item">
+                                <div class="trend__item__pic">
+                                    <img src="{{ URL::asset($item->cover_image ?? '') }}" alt="" width="100px"
+                                        height="100px">
                                 </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="img/trend/f-2.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Metallic earrings</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                <div class="trend__item__text">
+                                    <h6>{{ $item->title ?? '' }}</h6>
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product__price">&#8377; {{ $item->inventory->price ?? '' }}</div>
                                 </div>
-                                <div class="product__price">$ 59.0</div>
                             </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="img/trend/f-3.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Flap cross-body bag</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
