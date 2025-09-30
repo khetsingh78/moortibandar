@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -68,6 +69,7 @@ Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
     Route::post('/edit-category', [AdminController::class, 'editCategory'])->name('admin.editCategoryRequest');
     Route::get('/delete-category/{category}', [AdminController::class, 'deletedCategory'])->name('admin.deleteCategory');
     Route::get('/list-category', [AdminController::class, 'listCategory'])->name('admin.listCategory');
+    Route::resource('orders', OrderController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
