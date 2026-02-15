@@ -118,23 +118,23 @@
                     <div class="banner__slider owl-carousel">
                         <div class="banner__item">
                             <div class="banner__text">
-                                <span>The Chloe Collection</span>
-                                <h1>The Project Jacket</h1>
-                                <a href="#">Shop now</a>
+                                <span>Jain Collection</span>
+                                <h1>Jain religions statue collection</h1>
+                                <a href="{{ route('shop', 'jain-statue') }}">Shop now</a>
                             </div>
                         </div>
                         <div class="banner__item">
                             <div class="banner__text">
-                                <span>The Chloe Collection</span>
-                                <h1>The Project Jacket</h1>
-                                <a href="#">Shop now</a>
+                                <span>Hindu Collection</span>
+                                <h1>Hindu religion gods statue</h1>
+                                <a href="{{ route('shop', 'hindu-statue') }}">Shop now</a>
                             </div>
                         </div>
                         <div class="banner__item">
                             <div class="banner__text">
-                                <span>The Chloe Collection</span>
-                                <h1>The Project Jacket</h1>
-                                <a href="#">Shop now</a>
+                                <span>All Collection</span>
+                                <h1>All religions Statue collection</h1>
+                                <a href="{{ route('shop', 'all-product') }}">Shop now</a>
                             </div>
                         </div>
                     </div>

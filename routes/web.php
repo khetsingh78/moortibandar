@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -70,6 +71,7 @@ Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
     Route::get('/delete-category/{category}', [AdminController::class, 'deletedCategory'])->name('admin.deleteCategory');
     Route::get('/list-category', [AdminController::class, 'listCategory'])->name('admin.listCategory');
     Route::resource('orders', OrderController::class);
+    Route::resource('coupons', CouponController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
