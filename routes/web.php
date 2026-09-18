@@ -65,8 +65,6 @@ Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
     Route::resource('coupons', CouponController::class);
     Route::resource('categories', CategoriesController::class);
     Route::resource('discounts', DiscountController::class);
-
-    
 });
 
 Route::middleware(['auth'])->group(function () {
