@@ -19,17 +19,24 @@ class UserController extends Controller
     public function uploadPhoto(Request $request)
     {
         if ($request->isMethod("post")) {
+            // dd($request->all());
             try {
                 $request->validate([
                     "userPhoto" => "required|mimes:jpeg,png,jpg,svg",
                 ]);
                 $user = User::find(Auth::user()->id);
-                $previous_img = explode($request->getSchemeAndHttpHost(), $user->profile_url)[1];
+                // dd($user->profile_url, $request->getSchemeAndHttpHost());
+                $previous_img = '';
+                if ($user->profile_url) {
+                    $previous_img = explode($request->getSchemeAndHttpHost(), $user->profile_url)[1];
+                }
                 if (Storage::disk('public')->exists($previous_img)) {
                     Storage::disk('public')->delete($previous_img);
                 }
                 $img_url = $request->file("userPhoto")->store("avatar", 'public');
                 $user->profile_url = asset($img_url);
+
+
                 $user->save();
                 return redirect()->back()->with("SuccessMessage", "Profile is updated successfully.");
             } catch (\Throwable $th) {

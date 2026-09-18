@@ -18,7 +18,7 @@ class CouponController extends Controller
     {
         // dd($dataTable);
         // return view('admin.coupon.index');
-        return $dataTable->render('admin.coupon.index');
+        return $dataTable->render('admin.coupons.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class CouponController extends Controller
      */
     public function create()
     {
-        return view('admin.coupon.create');
+        return view('admin.coupons.create');
     }
 
     /**
@@ -77,7 +77,11 @@ class CouponController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.coupon.edit');
+        // dd($id);
+        $coupon = Coupon::find($id);
+        // dd($coupon);
+
+        return view('admin.coupons.edit', compact('coupon'));
     }
 
     /**
@@ -89,7 +93,32 @@ class CouponController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($id);
+        // dd($request->all());
+        $request->validate([
+            'title' => 'required',
+            'code' => 'required',
+            'type' => 'required',
+            'value' => 'required',
+            'expire_at' => 'required',
+        ]);
+
+        // Coupon::create([
+        //     "title" => $request->title,
+        //     "code" => $request->code,
+        //     "type" => $request->type,
+        //     "value" => $request->value,
+        //     "expire_at" => $request->expire_at,
+        // ]);
+        $coupon = Coupon::find($id);
+        $coupon->title = $request->title;
+        $coupon->code = $request->code;
+        $coupon->type = $request->type;
+        $coupon->value = $request->value;
+        $coupon->expire_at = $request->expire_at;
+        $coupon->save();
+
+        return redirect()->back()->with('SuccessMessage', "Coupon is updated successfully.");
     }
 
     /**
@@ -100,6 +129,14 @@ class CouponController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // dd($id);
+        $isDeleted =  Coupon::destroy($id);
+        // dd($isDeleted);
+        if (!$isDeleted) {
+
+            return redirect()->back()->with('ErrorMessage', "Somthing Went wrong.");
+        }
+
+        return redirect()->back()->with('SuccessMessage', "Coupon is updated successfully.");
     }
 }

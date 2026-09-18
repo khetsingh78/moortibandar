@@ -24,7 +24,7 @@ class AuthController extends Controller
                 $user = User::where("email", $validator["email"])->firstOrFail();
                 if (Auth::attempt($validator, true)) {
                     if ($user->hasRole('super-admin')) {
-                        return redirect()->route("admin.dashboard")->with("SuccessMessage", "Admin is logged successfully!");
+                        return redirect()->route("dashboard")->with("SuccessMessage", "Admin is logged successfully!");
                     }
                     return redirect()->back()->with('SuccessMessage', 'Logged in successfully.');
                 } else {

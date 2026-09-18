@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -56,22 +59,14 @@ Route::delete('remove-coupon', [CartController::class, 'removeCoupon'])->name('r
 
 Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
 
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/list-product', [AdminController::class, 'listProduct'])->name('admin.listProduct');
-    Route::any('/add-product', [AdminController::class, 'addPrduct'])->name('admin.addProduct');
-    Route::get('/edit-product/{productId}', [AdminController::class, 'editProduct'])->name('admin.editProduct');
-    Route::post('/edit-product', [AdminController::class, 'editProduct'])->name('admin.editProductRequest');
-    Route::get('/delete-product/{productId}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
-    Route::get('/view-product/{productId}', [AdminController::class, 'viewProduct'])->name('admin.viewProduct');
-
-    //category routes
-    Route::any('/add-category', [AdminController::class, 'addCategory'])->name('admin.addCategory');
-    Route::get('/edit-category/{category}', [AdminController::class, 'editCategory'])->name('admin.editCategory');
-    Route::post('/edit-category', [AdminController::class, 'editCategory'])->name('admin.editCategoryRequest');
-    Route::get('/delete-category/{category}', [AdminController::class, 'deletedCategory'])->name('admin.deleteCategory');
-    Route::get('/list-category', [AdminController::class, 'listCategory'])->name('admin.listCategory');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('coupons', CouponController::class);
+    Route::resource('categories', CategoriesController::class);
+    Route::resource('discounts', DiscountController::class);
+
+    
 });
 
 Route::middleware(['auth'])->group(function () {

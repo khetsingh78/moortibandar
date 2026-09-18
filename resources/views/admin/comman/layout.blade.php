@@ -19,13 +19,13 @@
         rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet"> --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- Libraries Stylesheet -->
     <link href="{{ URL::asset('admin/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}"
-        rel="stylesheet" />
+    <link href="{{ URL::asset('admin/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ URL::asset('admin/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -33,6 +33,8 @@
     <!-- Template Stylesheet -->
     <link href="{{ URL::asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('admin/lib/toast/toastr.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
 
     @stack('header')
 </head>
@@ -92,6 +94,7 @@
         @endif
     </script>
 
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     @stack('footer')
 </body>
 

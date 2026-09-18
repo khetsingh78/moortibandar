@@ -77,9 +77,10 @@
         </div>
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img class="rounded-circle me-lg-2" src="{{ URL::asset('admin/img/user.jpg') }}" alt=""
+                <img class="rounded-circle me-lg-2"
+                    src="{{ Auth::user()?->profile_url ?? URL::asset('admin/img/user.jpg') }}" alt=""
                     style="width: 40px; height: 40px;">
-                <span class="d-none d-lg-inline-flex">John Doe</span>
+                <span class="d-none d-lg-inline-flex">{{ Str::limit(Auth::user()?->name, 10, '..') ?? 'N/A' }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                 <a href="#" class="dropdown-item">My Profile</a>

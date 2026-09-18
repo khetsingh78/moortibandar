@@ -22,9 +22,23 @@ class CouponDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        // dd($query);
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'coupon.action')
-            ->setRowId('id');
+            ->addIndexColumn()
+            ->editColumn('expire_at', function ($row) {
+                return $row->created_at->format('d M Y');
+            })/* ->editColumn('created_at', function ($row) {
+                return $row->created_at->format('d M Y');
+            })
+            ->editColumn('updated_at', function ($row) {
+                return $row->updated_at->format('d M Y');
+            }) */
+            ->addColumn('action', 'admin.coupons.action');
+        // ->addColumn('action', function ($row) {
+        //     $id = $row->id;
+        //     return view('admin.coupons.action', compact('id'))->render();
+        // })
+        // ->rawColumns(['action']);
     }
 
     /**
@@ -70,14 +84,18 @@ class CouponDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('Sr. No.')
+                ->orderable(false)
+                ->searchable(false)
+                ->width(60),
             Column::make('title'),
             Column::make('code'),
             Column::make('type'),
             Column::make('value'),
             Column::make('expire_at'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            // Column::make('created_at'),
+            // Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

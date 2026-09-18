@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained("product", "id")->cascadeOnDelete(); //referencing
             $table->integer('quantity')->default(0);
             $table->decimal('price', 10, 2)->default(0);
-            $table->enum('discount_type', ['flat', 'precent'])->nullable();
+            $table->enum('discount_type', ['flat', 'percent'])->nullable();
             $table->decimal('discount_value', 10, 2)->default(0);
             $table->decimal('gsttax', 10, 2)->default(0);
             $table->timestamps();

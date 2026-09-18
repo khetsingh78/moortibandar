@@ -69,9 +69,9 @@
 @endsection
 
 @push('footer')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
         });
-    </script>
+    </script> --}}
 @endpush

@@ -287,3 +287,10 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+
+/* Table style  */
+.table>tbody {
+    vertical-align: inherit;
+    text-align: left !important;
+}

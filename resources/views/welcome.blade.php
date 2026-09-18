@@ -111,7 +111,7 @@
     <!-- Product Section End -->
 
     <!-- Banner Section Begin -->
-    <section class="banner set-bg" data-setbg="{{ URL::asset('/img/banner/banner-1.jpg') }}">
+    <section class="banner set-bg" data-setbg="{{ URL::asset('/img/banner/banner-4.png') }}">
         <div class="container">
             <div class="row">
                 <div class="col-xl-7 col-lg-8 m-auto">
@@ -238,7 +238,7 @@
             <div class="row">
                 <div class="col-lg-6 p-0">
                     <div class="discount__pic">
-                        <img src="{{ URL::asset('/img/discount.jpg') }}" alt="">
+                        <img src="{{ URL::asset('/img/discount.png') }}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 p-0">
