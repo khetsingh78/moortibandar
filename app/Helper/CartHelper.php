@@ -29,6 +29,7 @@ class CartHelper
 
         // 3. Apply cart-level coupon
         $subtotalAfterCoupon = $discountedSubtotal;
+        // dd(Cart::session('cart')->getConditions());
         foreach (Cart::session('cart')->getConditions() as $cond) {
             if (in_array($cond->getType(), ['discount', 'coupon'])) {
                 $subtotalAfterCoupon = (float) $cond->applyCondition($subtotalAfterCoupon);

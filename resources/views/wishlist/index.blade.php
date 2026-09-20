@@ -59,7 +59,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="cart__price">$ {{ $item->price ?? 00 }}</td>
+                                            <td class="cart__price">&#8377; {{ $item->price ?? 00 }}</td>
                                             <td class="cart__quantity">
                                                 <div class="pro-qty pro-qty-wishlist">
                                                     <input type="text" value="{{ $item->quantity ?? 0 }}">

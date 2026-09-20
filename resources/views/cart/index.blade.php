@@ -129,7 +129,7 @@
                                         {{ $summary['discount'] ?? 00 }}</span></span>
                             </li>
                             @if (Session::has('coupon'))
-                                <li>coupon <span>&#8377; <span class="coupon">
+                                <li>Coupon <span>&#8377; <span class="coupon">
                                             {{ $summary['coupon'] ?? 00 }}</span></span>
                                 </li>
                             @endif

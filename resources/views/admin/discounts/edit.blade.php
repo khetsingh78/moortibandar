@@ -11,50 +11,47 @@
     <div class="container-fluid pt-4 px-4">
         <div class="col-sm-12 col-xl-12">
 
-            <form action="{{ route('coupons.update', $coupon->id) }}" method="post">
-                @method('PUT')
+            <form action="{{ route('coupons.store') }}" method="post">
                 @csrf
                 <div class="bg-secondary rounded h-100 p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Edit Coupon</h6>
+                        <h6 class="mb-0">E Coupon</h6>
                         <a href="{{ route('coupons.index') }}" class="btn btn-sm btn-success">Back</a>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" value="{{ $coupon->title ?? '' }}" name="title" class="form-control"
-                            id="floatingInput" placeholder="Enter Title">
+                        <input type="text" name="title" class="form-control" id="floatingInput"
+                            placeholder="Enter Title">
                         <label for="floatingInput">Title</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" name="code" value="{{ $coupon->code ?? '' }}" class="form-control"
-                            id="floatingInput" placeholder="Enter Code">
+                        <input type="text" name="code" class="form-control" id="floatingInput"
+                            placeholder="Enter Code">
                         <label for="floatingInput">Code</label>
                     </div>
 
                     <div class="form-floating mb-3">
                         <select class="form-select" name="type" id="floatingSelect"
                             aria-label="Floating label select example">
-                            <option value="Flat"  {{ $coupon->type == 'Flat' ? 'selected' : '' }}>Flat</option>
-                            <option value="Precent" {{ $coupon->type == 'Precent' ? 'selected' : '' }}>Precent
-                            </option>
+                            <option value="flat">flat</option>
+                            <option selected value="percent">percent</option>
                         </select>
                         <label for="floatingSelect">Discount Type</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" name="value" value="{{ $coupon->value ?? '' }}" class="form-control"
-                            id="floatingInput" placeholder="Enter value">
+                        <input type="text" name="value" class="form-control" id="floatingInput"
+                            placeholder="Enter value">
                         <label for="floatingInput">Value</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="date" name="expire_at"
-                            value="{{ $coupon->expire_at ? \Carbon\Carbon::parse($coupon->expire_at)->format('Y-m-d') : '' }}"
-                            class="form-control" id="floatingInput" placeholder="Enter expire date">
+                        <input type="date" name="expire_at" class="form-control" id="floatingInput"
+                            placeholder="Enter expire date">
                         <label for="floatingInput">Expire at</label>
                     </div>
 
                     <div class="form-floating mb-3 ">
-                        <button type="submit" class="border  btn btn-success m-2">Update</button>
+                        <button type="submit" class="border  btn btn-success m-2">Add</button>
                     </div>
                 </div>
             </form>

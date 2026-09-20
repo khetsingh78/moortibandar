@@ -32,8 +32,8 @@
                     <div class="form-floating mb-3">
                         <select class="form-select" name="type" id="floatingSelect"
                             aria-label="Floating label select example">
-                            <option value="Flat">Flat</option>
-                            <option selected value="Precent">Precent</option>
+                            <option value="flat">flat</option>
+                            <option selected value="percent">percent</option>
                         </select>
                         <label for="floatingSelect">Discount Type</label>
                     </div>

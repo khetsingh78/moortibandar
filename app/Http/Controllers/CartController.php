@@ -164,7 +164,7 @@ class CartController extends Controller
                 return response()->json(["status" => "error", "message" => "Coupon code invalid."]);
             }
             Session::put('coupon', $request->coupon);
-            $type =  $coupon->type == 'precent' ? '%' : '';
+            $type =  $coupon->type == 'percent' ? '%' : '';
             $coupon_code = new CartCondition([
                 'name' => $coupon->code,
                 'type' => 'coupon',
@@ -190,8 +190,10 @@ class CartController extends Controller
     {
         try {
 
-            CartFacade::removeCartCondition(Session::get('coupon'));
+            // dd(Session::get('coupon'));
+            CartFacade::session('cart')->removeCartCondition(Session::get('coupon'));
             Session::remove('coupon');
+
             $summary = CartHelper::summary();
             return response()->json([
                 "status" => "success",
@@ -207,9 +209,9 @@ class CartController extends Controller
     public function addItemToCart($product_id)
     {
         $product = Product::with('inventory')->findOrFail($product_id);
-        $type = $product->inventory->discount_type == 'precent' ? '%' : '';
+        $type = $product->inventory->discount_type == 'percent' ? '%' : '';
         $discount = new CartCondition([
-            'name'   => 'Item precent discount',
+            'name'   => 'Item percent discount',
             'type'   => 'discount',
             'target' => 'item',
             'value'  => '-' . $product->inventory->discount_value . $type,

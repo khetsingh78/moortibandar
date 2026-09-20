@@ -23,7 +23,11 @@ class OrderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'order.show')
+            ->addIndexColumn()
+            ->editColumn('created_at', function ($row) {
+                return $row->created_at->format('d M Y');
+            })
+            ->addColumn('action', 'admin.orders.action')
             ->setRowId('id');
     }
 
@@ -70,14 +74,19 @@ class OrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            // Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('Sr. No.')
+                ->orderable(false)
+                ->searchable(false),
+
             Column::make('invoice_no'),
             Column::make('subtotal'),
             Column::make('discount'),
             Column::make('coupon'),
             Column::make('gst'),
-            Column::make('deliver_charge'),
-            Column::make('gatway_charge'),
+            // Column::make('deliver_charge'),
+            // Column::make('gatway_charge'),
             Column::make('total'),
             Column::make('delivery_status'),
             Column::make('payment_status'),

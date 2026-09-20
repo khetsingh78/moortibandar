@@ -32,10 +32,10 @@
 
                     <div class="form-floating mb-3">
                         <select class="form-select" name="type">
-                            <option value="Flat" @selected($coupon->type == 'Flat')>
+                            <option value="flat" @selected($coupon->type == 'flat')>
                                 Flat
                             </option>
-                            <option value="Percent" @selected($coupon->type == 'Percent')>
+                            <option value="percent" @selected($coupon->type == 'percent')>
                                 Percent
                             </option>
                         </select>

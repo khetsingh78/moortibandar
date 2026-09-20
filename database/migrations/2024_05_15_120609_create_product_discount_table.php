@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product_discount', function (Blueprint $table) {
             $table->id();
             $table->string('name', 225);
-            $table->enum('type', ['flat', 'precent']);
+            $table->enum('type', ['flat', 'percent']);
             $table->string('value', 225);
             $table->enum('status', ['0', '1'])->default('1');
             $table->timestamps();

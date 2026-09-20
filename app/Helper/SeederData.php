@@ -171,7 +171,7 @@ function discount()
         ],
         [
             "name" => "Raksha bandan offer",
-            "type" => "precent",
+            "type" => "percent",
             "value" => 10,
         ]
     ];

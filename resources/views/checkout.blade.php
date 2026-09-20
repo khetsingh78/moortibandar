@@ -157,7 +157,7 @@
                             <div class="checkout__order__widget">
                                 <label for="check-payment">
                                     Case On Delivery
-                                    <input type="radio" id="check-payment" value="case" name="payment_type">
+                                    <input type="radio" id="check-payment" value="cod" name="payment_type">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label for="paypal">
@@ -200,38 +200,44 @@
             });
 
             let order = await response.json();
+            console.log(order);
 
-            // Step 2: Open Razorpay popup
-            var options = {
-                "key": order.key,
-                "amount": order.amount,
-                "currency": order.currency,
-                "name": "My Shop",
-                "description": "Order Payment",
-                "order_id": order.order_id,
-                "handler": function(res) {
-                    // Step 3: Send to backend for verification
-                    fetch("{{ route('payment.success') }}", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                                    .content
-                            },
-                            body: JSON.stringify(res)
-                        })
-                        .then(res => res.json())
-                        .then((data) => {
-                            if (data.status == "success") {
-                                alert(data.message);
-                            } else {
-                                alert(data.message);
-                            }
-                        });
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
+            if (order.payment_method == 'online') {
+                // Step 2: Open Razorpay popup
+                var options = {
+                    "key": order.key,
+                    "amount": order.amount,
+                    "currency": order.currency,
+                    "name": "My Shop",
+                    "description": "Order Payment",
+                    "order_id": order.order_id,
+                    "handler": function(res) {
+                        // Step 3: Send to backend for verification
+                        fetch("{{ route('payment.success') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                        .content
+                                },
+                                body: JSON.stringify(res)
+                            })
+                            .then(res => res.json())
+                            .then((data) => {
+                                if (data.status == "success") {
+                                    alert(data.message);
+                                } else {
+                                    alert(data.message);
+                                }
+                            });
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            } else {
+                alert(order.message);
+                window.location.href = "{{ route('home') }}";
+            }
         }
     </script>
 @endpush

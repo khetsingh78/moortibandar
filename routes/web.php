@@ -42,7 +42,7 @@ Route::any('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::resource('/checkout', CheckoutController::class);
-Route::post('/checkout/payment-success', [CheckoutController::class, 'paymentSuccess'])->name('payment.success');
+Route::post('payment-success', [CheckoutController::class, 'paymentSuccess'])->name('payment.success');
 
 
 Route::get('demo', function () {
@@ -61,10 +61,10 @@ Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('products', ProductController::class);
-    Route::resource('orders', OrderController::class);
     Route::resource('coupons', CouponController::class);
     Route::resource('categories', CategoriesController::class);
     Route::resource('discounts', DiscountController::class);
+    Route::resource('orders', OrderController::class);
 });
 
 Route::middleware(['auth'])->group(function () {
