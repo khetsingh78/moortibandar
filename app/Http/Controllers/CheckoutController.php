@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Payment;
 use App\Models\Shipping;
+use App\Models\User;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +55,25 @@ class CheckoutController extends Controller
 
 
         try {
+            // dd(!Auth::check() && $request->create_account_check == 'on');
+
+            if (!Auth::check() && $request->create_account_check == 'on') {
+                $validator = $request->validate([
+                    "name" => 'required|max:225',
+                    "email" => 'required|unique:users,email',
+                    "password" => 'required'
+                ]);
+                $user = User::create([
+                    "name" => $validator["name"],
+                    "email" => $validator["email"],
+                    "password" => bcrypt($validator["password"])
+                ]);
+
+                Auth::login($user);
+            }
+            if (!Auth::check()) {
+                return response()->json(["status" => "error", "message" => "User is not authenticated"]);
+            }
 
             // dd(Cart::session('cart')->getContent()->count());
             if (Cart::session('cart')->getContent()->count() === 0) {
