@@ -107,15 +107,18 @@
                                         </p>
                                     </div>
                                     <div class="checkout__form__input">
-                                        <p>Email <span>*</span></p>
-                                        <input type="text" placeholder="Enter Email" name="email"
-                                            value="{{ $user->email ?? '' }}">
+                                        <p>Name <span>*</span></p>
+                                        <input type="text" name="name" placeholder="Enter Name" value="">
                                     </div>
                                     <div class="checkout__form__input">
+                                        <p>Email <span>*</span></p>
+                                        <input type="text" placeholder="Enter Email" name="email" value="">
+                                    </div>
+                                    {{-- <div class="checkout__form__input">
                                         <p>Phone <span>*</span></p>
                                         <input type="text" name="phone_no" placeholder="Enter Phone no."
                                             value="{{ $user->phone ?? '' }}">
-                                    </div>
+                                    </div> --}}
                                     <div class="checkout__form__input">
                                         <p>Account Password <span>*</span></p>
                                         <input type="text" placeholder="Enter password" name="password">
@@ -202,6 +205,11 @@
             let order = await response.json();
             console.log(order);
 
+            if (order.status == "error") {
+                sweet(order.status, order.message);
+                return false;
+            }
+
             if (order.payment_method == 'online') {
                 // Step 2: Open Razorpay popup
                 var options = {
@@ -225,9 +233,13 @@
                             .then(res => res.json())
                             .then((data) => {
                                 if (data.status == "success") {
-                                    alert(data.message);
+                                    // alert(data.message);
+                                    sweet(data.status, data.message);
+                                    window.location.href = "{{ route('home') }}";
+
                                 } else {
-                                    alert(data.message);
+                                    // alert(data.message);
+                                    sweet(data.status, data.message);
                                 }
                             });
                     }
@@ -235,8 +247,9 @@
                 var rzp1 = new Razorpay(options);
                 rzp1.open();
             } else {
-                alert(order.message);
-                window.location.href = "{{ route('home') }}";
+                // alert(order.message);
+                sweet(data.status, order.message);
+                // window.location.href = "{{ route('home') }}";
             }
         }
     </script>
