@@ -69,6 +69,8 @@ Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'dashboard'])->name('user.profile');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::get('/profile/order/{id}', [UserController::class, 'orderDetails'])->name('user.order.details');
     Route::post('/upload-photo', [UserController::class, 'uploadPhoto'])->name('user.photo');
 });
 
