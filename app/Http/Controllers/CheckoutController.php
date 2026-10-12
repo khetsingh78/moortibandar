@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\CartHelper;
+use App\Mail\OrderPlacedMail;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Payment;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Razorpay\Api\Api;
 
@@ -25,12 +27,16 @@ class CheckoutController extends Controller
      */
     public function index()
     {
+        // dd(Cart::session('cart')->getTotalQuantity());
         $user = [];
         if (Auth::check()) {
             $user = Auth::user()->load('usermeta');
         }
         $cart = CartHelper::summary();
-        // dd(json_decode($user));
+        if ($cart['count'] < 1) {
+            return redirect()->route('home')
+                ->with('ErrorMessage', 'Add item to cart.');
+        }
         return view('checkout', compact('user', 'cart'));
     }
 
@@ -52,7 +58,7 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dd($request->all());
 
         try {
             // dd(!Auth::check() && $request->create_account_check == 'on');
@@ -152,7 +158,6 @@ class CheckoutController extends Controller
                 ]);
             }
 
-
             Shipping::create([
                 "order_id" => $order->id,
                 "type" => "shipping",
@@ -177,46 +182,51 @@ class CheckoutController extends Controller
                     "currency" => 'INR',
                     "amount" => $order->total,
                 ]);
-                DB::commit();
-                Cart::clear();
-                Session::remove('coupon');
-                return response()->json(['payment_method' => "cod", "message" => "Order placed successfully."]);
+                $response = ["status" => "success", "message" => "Order placed successfully.", 'payment_method' => "cod"];
+            } else {
+                //. create online transaction.
+                $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+
+                // 2. Create Razorpay order
+                $razorpayOrder = $api->order->create([
+                    'receipt' => 'order_rcpt_' . $order->id,
+                    'amount' => $order->total * 100, // in paise
+                    'currency' => 'INR',
+                    'payment_capture' => 1,
+                ]);
+                // dd($razorpayOrder);
+                // 3. Update local order with razorpay order_id
+                $order->update([
+                    'razorpay_order_id' => $razorpayOrder['id']
+                ]);
+
+                Payment::create([
+                    "order_id" => $order->id,
+                    "payment_method" => 'online',
+                    "transaction_order_id" => $razorpayOrder['id'],
+                    "currency" => $razorpayOrder['currency'],
+                    "amount" => $summary['final_total'],
+                ]);
+                // DB::commit();
+                $response = [
+                    'payment_method' => "online",
+                    'order_id' => $razorpayOrder['id'],
+                    'amount'   => $razorpayOrder['amount'],
+                    'currency' => $razorpayOrder['currency'],
+                    'key'      => env('RAZORPAY_KEY')
+                ];
             }
 
-
-            //. create online transaction.
-            $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-
-            // 2. Create Razorpay order
-            $razorpayOrder = $api->order->create([
-                'receipt' => 'order_rcpt_' . $order->id,
-                'amount' => $order->total * 100, // in paise
-                'currency' => 'INR',
-                'payment_capture' => 1,
-            ]);
-            // dd($razorpayOrder);
-            // 3. Update local order with razorpay order_id
-            $order->update([
-                'razorpay_order_id' => $razorpayOrder['id']
-            ]);
-
-            Payment::create([
-                "order_id" => $order->id,
-                "payment_method" => 'online',
-                "transaction_order_id" => $razorpayOrder['id'],
-                "currency" => $razorpayOrder['currency'],
-                "amount" => $summary['final_total'],
-            ]);
-
-
             DB::commit();
-            return response()->json([
-                'payment_method' => "online",
-                'order_id' => $razorpayOrder['id'],
-                'amount'   => $razorpayOrder['amount'],
-                'currency' => $razorpayOrder['currency'],
-                'key'      => env('RAZORPAY_KEY')
-            ]);
+
+            if ($request->payment_type == 'cod') {
+                Cart::clear();
+                Session::remove('coupon');
+                Mail::to($order->user->email)
+                    ->queue(new OrderPlacedMail($order));
+            }
+
+            return response()->json($response);
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::info($th->getMessage());
@@ -289,6 +299,11 @@ class CheckoutController extends Controller
 
             // Update order status
             $order->update(['payment_status' => 'paid']);
+
+            Mail::to($order->user->email)
+                ->queue(new OrderPlacedMail($order));
+            Cart::clear();
+            Session::remove('coupon');
 
             return response()->json(['status' => 'success', "message" => 'Payment Successful.']);
         } catch (\Exception $e) {
