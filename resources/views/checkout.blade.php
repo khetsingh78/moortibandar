@@ -189,6 +189,7 @@
 @push('footer')
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
+        let homeroute = "{{ route('home') }}";
         document.getElementById('rzp-button').onclick = async function(e) {
             e.preventDefault();
             let form = document.getElementById("checkout_form");
@@ -235,7 +236,7 @@
                                 if (data.status == "success") {
                                     // alert(data.message);
                                     sweet(data.status, data.message);
-                                    window.location.href = "{{ route('home') }}";
+                                    window.location.href = homeroute;
 
                                 } else {
                                     // alert(data.message);
@@ -248,8 +249,8 @@
                 rzp1.open();
             } else {
                 // alert(order.message);
-                sweet(data.status, order.message);
-                // window.location.href = "{{ route('home') }}";
+                sweet(order.status, order.message);
+                window.location.href = homeroute;
             }
         }
     </script>
