@@ -1,6 +1,7 @@
 @extends('partial/layouts')
 
 @section('title', 'My Profile')
+@section('robots', 'noindex, nofollow')
 
 @push('header')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
@@ -246,14 +247,16 @@
                 <div class="col-lg-4">
                     <div class="profile-card">
                         <div class="profile-avatar-wrap">
-                            <img src="{{ Auth::user()->profile_url ?? asset('img/user.jpg') }}" alt="Profile Photo" class="profile-avatar">
+                            <img src="{{ Auth::user()->profile_url ?? asset('img/user.jpg') }}" alt="Profile Photo"
+                                class="profile-avatar">
                         </div>
 
                         <form action="{{ route('user.photo') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="userPhoto">Update profile image</label>
-                                <input type="file" name="userPhoto" class="form-control" id="userPhoto" accept=".png,.jpg,.jpeg,.svg">
+                                <input type="file" name="userPhoto" class="form-control" id="userPhoto"
+                                    accept=".png,.jpg,.jpeg,.svg">
                             </div>
                             <button type="submit" class="site-btn w-100">Upload Photo</button>
                         </form>
@@ -271,21 +274,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Full Name</label>
-                                        <input type="text" id="name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
+                                        <input type="text" id="name" name="name"
+                                            value="{{ old('name', Auth::user()->name) }}" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email">Email Address</label>
-                                        <input type="email" id="email" name="email" value="{{ old('email', Auth::user()->email) }}" required>
+                                        <input type="email" id="email" name="email"
+                                            value="{{ old('email', Auth::user()->email) }}" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone">Phone</label>
-                                        <input type="text" id="phone" name="phone" value="{{ old('phone', Auth::user()->phone) }}">
+                                        <input type="text" id="phone" name="phone"
+                                            value="{{ old('phone', Auth::user()->phone) }}">
                                     </div>
                                 </div>
 
@@ -294,9 +300,15 @@
                                         <label for="gender">Gender</label>
                                         <select id="gender" name="gender">
                                             <option value="">Select</option>
-                                            <option value="male" {{ old('gender', Auth::user()->gender) == 'male' ? 'selected' : '' }}>Male</option>
-                                            <option value="female" {{ old('gender', Auth::user()->gender) == 'female' ? 'selected' : '' }}>Female</option>
-                                            <option value="other" {{ old('gender', Auth::user()->gender) == 'other' ? 'selected' : '' }}>Other</option>
+                                            <option value="male"
+                                                {{ old('gender', Auth::user()->gender) == 'male' ? 'selected' : '' }}>Male
+                                            </option>
+                                            <option value="female"
+                                                {{ old('gender', Auth::user()->gender) == 'female' ? 'selected' : '' }}>
+                                                Female</option>
+                                            <option value="other"
+                                                {{ old('gender', Auth::user()->gender) == 'other' ? 'selected' : '' }}>
+                                                Other</option>
                                         </select>
                                     </div>
                                 </div>
@@ -324,31 +336,34 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            {{-- @dd($orders->count()); --}}
                             <tbody>
-                                @forelse($orders as $order)
-                                    <tr data-order-id="{{ $order->id }}">
-                                        <td>#{{ $order->invoice_no }}</td>
-                                        <td>{{ $order->created_at->format('d M Y') }}</td>
+                                @foreach ($orders ?? [] as $order)
+                                    <tr data-order-id="{{ $order->id ?? '' }}">
+                                        <td>#{{ $order->invoice_no ?? 'N/A' }}</td>
+                                        <td>{{ $order->created_at?->format('d M Y') ?? 'N/A' }}</td>
                                         <td>₹{{ number_format((float) $order->total, 2) }}</td>
                                         <td>
-                                            <span class="status-badge {{ $order->payment_status == 'paid' ? 'status-paid' : ($order->payment_status == 'pending' ? 'status-pending' : 'status-processing') }}">
-                                                {{ ucfirst($order->payment_status) }}
+                                            <span
+                                                class="status-badge {{ $order->payment_status == 'paid' ? 'status-paid' : ($order->payment_status == 'pending' ? 'status-pending' : 'status-processing') }}">
+                                                {{ ucfirst($order->payment_status ?? 'N/A') }}
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="status-badge {{ $order->delivery_status == 'delivered' ? 'status-delivered' : ($order->delivery_status == 'pending' ? 'status-pending' : ($order->delivery_status == 'cancelled' ? 'status-cancelled' : 'status-processing')) }}">
-                                                {{ ucfirst(str_replace('_', ' ', $order->delivery_status)) }}
+                                            <span
+                                                class="status-badge {{ $order->delivery_status == 'delivered' ? 'status-delivered' : ($order->delivery_status == 'pending' ? 'status-pending' : ($order->delivery_status == 'cancelled' ? 'status-cancelled' : 'status-processing')) }}">
+                                                {{ ucfirst(str_replace('_', ' ', $order->delivery_status ?? 'N/A')) }}
                                             </span>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-dark view-order-btn">View</button>
                                         </td>
                                     </tr>
-                                @empty
+                                    {{-- @empty
                                     <tr>
                                         <td colspan="6" class="text-center py-4">No orders found yet.</td>
-                                    </tr>
-                                @endforelse
+                                    </tr> --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -357,7 +372,8 @@
         </div>
     </section>
 
-    <div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+    <div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -398,25 +414,29 @@
 @push('footer')
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#orderHistoryTable').DataTable({
                 paging: true,
                 searching: true,
                 ordering: true,
                 pageLength: 10,
-                order: [[1, 'desc']],
+                order: [
+                    [1, 'desc']
+                ],
                 language: {
                     search: "Search orders",
                     lengthMenu: "Show _MENU_ entries",
-                    info: "Showing _START_ to _END_ of _TOTAL_ orders"
+                    info: "Showing _START_ to _END_ of _TOTAL_ orders",
+                    emptyTable: "No orders found yet.",
+                    zeroRecords: "No matching orders found."
                 }
             });
 
-            $('#orderHistoryTable tbody').on('click', 'tr', function () {
+            $('#orderHistoryTable tbody').on('click', 'tr', function() {
                 const orderId = $(this).data('order-id');
                 if (!orderId) return;
 
-                $.get('{{ url('/profile/order') }}/' + orderId, function (response) {
+                $.get('{{ url('/profile/order') }}/' + orderId, function(response) {
                     $('#detailInvoice').text(response.order.invoice_no);
                     $('#detailDate').text(response.order.created_at);
                     $('#detailDelivery').text(response.order.delivery_status.replace('_', ' '));
@@ -424,7 +444,7 @@
 
                     let itemsHtml = '';
 
-                    response.items.forEach(function (item) {
+                    response.items.forEach(function(item) {
                         itemsHtml += `
                             <div class="order-item-row">
                                 <div>

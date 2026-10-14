@@ -1,5 +1,11 @@
 @extends('partial/layouts')
-@section('title', 'shop')
+@php
+    $seoCategory = request('subcategory', request()->route('category', 'all-product'));
+    $seoCategory = $seoCategory === 'all-product' ? 'Handcrafted Moortis' : Str::title(str_replace('-', ' ', $seoCategory));
+@endphp
+@section('title', $seoCategory . ' | Shop Moorti Jeevan')
+@section('meta_description', 'Explore ' . Str::lower($seoCategory) . ' at Moorti Jeevan. Shop handcrafted spiritual statues and decor selected for your home, prayer space, or a thoughtful gift.')
+@section('canonical', url()->current() . (request()->filled('subcategory') ? '?subcategory=' . urlencode(request('subcategory')) : ''))
 
 @push('header')
     <style>

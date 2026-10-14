@@ -4,11 +4,17 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="description" content="Ashion Template">
-    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="description" content="{{ trim($__env->yieldContent('meta_description', 'Discover handcrafted spiritual statues and sacred home decor at Moorti Jeevan. Find meaningful pieces for your home, altar, and thoughtful gifts.')) }}">
+    <meta name="robots" content="@yield('robots', 'index, follow')">
+    <link rel="canonical" href="{{ trim($__env->yieldContent('canonical', url()->current())) }}">
+    <meta property="og:site_name" content="Moorti Jeevan">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ trim($__env->yieldContent('title', 'Moorti Jeevan | Handcrafted Spiritual Decor')) }}">
+    <meta property="og:description" content="{{ trim($__env->yieldContent('meta_description', 'Discover handcrafted spiritual statues and sacred home decor at Moorti Jeevan. Find meaningful pieces for your home, altar, and thoughtful gifts.')) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> @yield('title')</title>
+    <title>@yield('title', 'Moorti Jeevan | Handcrafted Spiritual Decor')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">

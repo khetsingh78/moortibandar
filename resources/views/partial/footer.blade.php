@@ -5,7 +5,7 @@
             <div class="col-lg-4 col-md-6 col-sm-7">
                 <div class="footer__about">
                     <div class="footer__logo">
-                        <a href="{{ route('home') }}"><img src="{{ URL::asset('/img/logo.png') }}" alt="Moorti Store Logo"></a>
+                        <a href="{{ route('home') }}"><img src="{{ URL::asset('/img/logo.png') }}" alt="Moorti Jeevan"></a>
                     </div>
                     <p>
                         Discover handcrafted spiritual decor and timeless idols for home, temple, and gifting.
@@ -87,8 +87,8 @@
     }
 
     .modern-footer .footer__logo img {
-        max-width: 150px;
-        filter: brightness(0) invert(1);
+        max-width: 100px;
+        /* filter: brightness(0) invert(1); */
     }
 
     .modern-footer .footer__widget h6,

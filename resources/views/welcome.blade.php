@@ -1,6 +1,7 @@
 @extends('partial/layouts')
 
-@section('title', 'Moorti Store | Spiritual Home Decor')
+@section('title', 'Moorti Jeevan | Handcrafted Moortis & Spiritual Home Decor')
+@section('meta_description', 'Shop handcrafted moortis and spiritual home decor at Moorti Jeevan. Discover meaningful statues for your home, altar, and thoughtful gifting.')
 
 @push('header')
     <style>

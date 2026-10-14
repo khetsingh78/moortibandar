@@ -1,5 +1,6 @@
 @extends('partial/layouts')
-@section('title', 'shop')
+@section('title', 'Contact Moorti Jeevan | Customer Support')
+@section('meta_description', 'Contact Moorti Jeevan for help with handcrafted moortis, product questions, orders, or your shopping experience.')
 
 @push('header')
     <style>
