@@ -8,12 +8,16 @@
     <form class="d-none d-md-flex ms-4">
         <input class="form-control bg-dark border-0" type="search" placeholder="Search">
     </form>
+    <div class="d-none d-md-flex ms-4">
+        <a class="nav-link btn" href="{{ route('home') }}" target="_blank">StoreFront</a>
+    </div>
     <div class="navbar-nav align-items-center ms-auto">
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <i class="fa fa-envelope me-lg-2"></i>
                 <span class="d-none d-lg-inline-flex">Message</span>
             </a>
+
             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                 <a href="#" class="dropdown-item">
                     <div class="d-flex align-items-center">

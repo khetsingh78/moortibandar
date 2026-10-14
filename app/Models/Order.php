@@ -22,4 +22,9 @@ class Order extends Model
     {
         return $this->hasOne(Shipping::class, 'order_id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_id');
+    }
 }

@@ -1,5 +1,6 @@
 @extends('partial/layouts')
-@section('title', 'shop')
+@section('title', ($product->title ?? 'Handcrafted Moorti') . ' | Moorti Jeevan')
+@section('meta_description', Str::limit(strip_tags($product->short_description ?? 'Discover this handcrafted spiritual statue at Moorti Jeevan, with meaningful decor for your home, prayer space, or gifting.'), 155))
 
 @push('header')
     <style>
@@ -39,7 +40,7 @@
                             </a> --}}
                             @foreach ($product['images'] as $key => $images)
                                 <a class="pt {{ $key == 0 ? 'active' : '' }}" href="#product-{{ $key }}">
-                                    <img src="{{ asset($images['image_name']) ?? '' }}" alt="">
+                                    <img src="{{ asset($images['image_name']) ?? '' }}" alt="{{ $product->title }} - product view {{ $key + 1 }}">
                                 </a>
                             @endforeach
 
@@ -48,7 +49,7 @@
                             <div class="product__details__pic__slider owl-carousel">
                                 @foreach ($product['images'] as $key => $images)
                                     <img data-hash="product-{{ $key }}" class="product__big__img"
-                                        src="{{ asset($images['image_name']) ?? '' }}" alt="" />
+                                        src="{{ asset($images['image_name']) ?? '' }}" alt="{{ $product->title }} - product view {{ $key + 1 }}" />
                                 @endforeach
                             </div>
                         </div>

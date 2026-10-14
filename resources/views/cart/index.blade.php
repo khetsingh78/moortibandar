@@ -1,5 +1,6 @@
 @extends('partial/layouts')
-@section('title', 'cart')
+@section('title', 'Your Shopping Cart | Moorti Jeevan')
+@section('robots', 'noindex, nofollow')
 
 @push('header')
     <style>
@@ -150,7 +151,7 @@
     <!-- Shop Cart Section End -->
 
     <!-- Instagram Begin -->
-    <x-FooterImages />
+    {{-- <x-FooterImages /> --}}
     <!-- Instagram End -->
 
 @endsection

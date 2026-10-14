@@ -17,7 +17,7 @@
              </a></li>
      </ul>
      <div class="offcanvas__logo">
-         <a href="./index.html"><img src="img/logo.png" alt=""></a>
+         <a href="{{ route('home') }}"><img src="{{ URL::asset('/img/logo.png') }}" alt="Moorti Jeevan"></a>
      </div>
      <div id="mobile-menu-wrap"></div>
      <div class="offcanvas__auth">
@@ -33,7 +33,7 @@
          <div class="row">
              <div class="col-xl-3 col-lg-2">
                  <div class="header__logo">
-                     <a href="{{ route('home') }}"><img src="{{ URL::asset('/img/logo.png') }}" alt=""></a>
+                     <a href="{{ route('home') }}"><img src="{{ URL::asset('/img/logo.png') }}" alt="Moorti Jeevan" width="50" height="50"></a>
                  </div>
              </div>
              <div class="col-xl-6 col-lg-7">
@@ -126,4 +126,56 @@
          </div>
      </div>
  </header>
+
+ <style>
+     .header {
+         position: sticky;
+         top: 0;
+         z-index: 999;
+     }
+
+     .header__menu ul li {
+         position: relative;
+     }
+
+     .header__menu .dropdown {
+         position: absolute;
+         top: calc(100% + 8px);
+         left: 0;
+         min-width: 220px;
+         background: #fff;
+         border: 1px solid rgba(17,17,17,0.08);
+         border-radius: 14px;
+         box-shadow: 0 18px 35px rgba(17,17,17,0.08);
+         padding: 10px;
+         list-style: none;
+         opacity: 0;
+         visibility: hidden;
+         transform: translateY(10px);
+         transition: all 0.25s ease;
+         pointer-events: none;
+         z-index: 1000;
+     }
+
+     .header__menu ul li:hover > .dropdown,
+     .header__menu ul li:focus-within > .dropdown {
+         opacity: 1;
+         visibility: visible;
+         transform: translateY(0);
+         pointer-events: auto;
+     }
+
+     .header__menu .dropdown li {
+         display: block;
+     }
+
+     .header__menu .dropdown li a {
+         display: block;
+         width: 100%;
+         padding: 10px 12px;
+         border-radius: 10px;
+         text-align: left;
+     }
+ </style>
+
  {{-- @dd(Cart::count()); --}}
