@@ -33,7 +33,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop/{category}', [HomeController::class, 'shop'])->name('shop');
 Route::get('/view-product/{slug}', [HomeController::class, 'productDetails'])->name('productDetails');
 Route::any('/contact', [HomeController::class, 'contact'])->name('contact');
-Route::any('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::any('/login', [AuthController::class, 'login'])->name('login')->middleware("guest");
@@ -65,6 +64,8 @@ Route::prefix('admin')->middleware(['auth', 'hasRole'])->group(function () {
     Route::resource('categories', CategoriesController::class);
     Route::resource('discounts', DiscountController::class);
     Route::resource('orders', OrderController::class);
+    Route::post('/orders/{order}/shiprocket/couriers', [OrderController::class, 'couriers'])->name('orders.shiprocket.couriers');
+    Route::post('/orders/{order}/shiprocket', [OrderController::class, 'createShipment'])->name('orders.shiprocket.store');
 });
 
 Route::middleware(['auth'])->group(function () {

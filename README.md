@@ -64,3 +64,11 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Shiprocket Setup
+
+Configure `SHIPROCKET_EMAIL`, `SHIPROCKET_PASSWORD`, `SHIPROCKET_PICKUP_LOCATION`, `SHIPROCKET_PICKUP_POSTCODE`, and a long random `SHIPROCKET_WEBHOOK_TOKEN` in the server environment. Do not commit these values. The pickup location must exactly match a verified Shiprocket pickup location.
+
+Run `php artisan migrate` to create shipment storage. For asynchronous shipment creation, set `QUEUE_CONNECTION=database` and keep a worker running with `php artisan queue:work`. Configure the Shiprocket webhook URL as `/api/webhooks/shiprocket/{SHIPROCKET_WEBHOOK_TOKEN}`; use HTTPS in production.
+
+In Admin > Orders, open an order, enter its packed parcel measurements, load serviceable couriers, select a courier, then create the shipment. Prepaid orders must be paid first; COD orders can be submitted by an admin.
