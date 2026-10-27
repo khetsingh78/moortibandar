@@ -31,4 +31,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'shiprocket' => [
+        'base_url' => env('SHIPROCKET_BASE_URL', 'https://apiv2.shiprocket.in/v1/external'),
+        'email' => env('SHIPROCKET_EMAIL'),
+        'password' => env('SHIPROCKET_PASSWORD'),
+        'pickup_location' => env('SHIPROCKET_PICKUP_LOCATION'),
+        'pickup_postcode' => env('SHIPROCKET_PICKUP_POSTCODE'),
+        'webhook_token' => env('SHIPROCKET_WEBHOOK_TOKEN'),
+    ],
+
 ];
